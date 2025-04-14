@@ -1,139 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Seoder Token Launch</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('background.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-    }
-    #countdown {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      font-size: 18px;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 10px 15px;
-      border-radius: 10px;
-    }
-    .wallet-section, .purchase-section {
-      text-align: center;
-      margin-top: 30px;
-    }
-    .purchase-section input {
-      padding: 10px;
-      width: 200px;
-      margin: 10px;
-    }
-    .about-section {
-      margin-top: 50px;
-      padding: 20px;
-      background: rgba(0,0,0,0.6);
-      border-radius: 10px;
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    button {
-      padding: 10px 20px;
-      background: #ffcc00;
-      color: black;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    img.logo {
-      width: 120px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Seoder Token Presale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+
+        .btn {
+            background-color: #ff0080;
+            color: white;
+            padding: 15px 30px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #e60073;
+        }
+    </style>
 </head>
 <body>
-  <div id="countdown"></div>
-
-  <header>
-    <img src="seoder.png" alt="Seoder Logo" class="logo" />
-    <h1>Welcome to the Seoder Token Presale</h1>
-  </header>
-
-  <div class="wallet-section">
-    <button onclick="connectWallet()">Connect Wallet</button>
-    <p id="walletAddress"></p>
-  </div>
-
-  <div class="purchase-section">
-    <input type="number" id="bnbAmount" placeholder="Enter BNB amount"/>
-    <button onclick="buyTokens()">Buy SEODER</button>
-    <p id="purchaseMessage"></p>
-  </div>
-
-  <div class="about-section">
-    <h2>About Seoder</h2>
-    <p>Seoder Token is not just another meme token. It’s a community-driven cryptocurrency project committed to transparency, innovation, and fair distribution. Our mission is to build a sustainable, secure, and engaging ecosystem for both new and seasoned crypto enthusiasts. Join us in redefining the meme token experience.</p>
-  </div>
-
-  <script>
-    // Countdown Timer for 9 months from now
-    const countdownElement = document.getElementById('countdown');
-    const launchDate = new Date();
-    launchDate.setMonth(launchDate.getMonth() + 9);
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = launchDate - now;
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      countdownElement.innerHTML = `Presale ends in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-      if (distance < 0) {
-        countdownElement.innerHTML = "Presale Ended";
-      }
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // Wallet and Buy Logic
-    let userAddress = null;
-
-    async function connectWallet() {
-      if (window.ethereum) {
-        try {
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-          userAddress = accounts[0];
-          document.getElementById('walletAddress').textContent = "Connected: " + userAddress;
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        alert('MetaMask not detected!');
-      }
-    }
-
-    async function buyTokens() {
-      const bnbAmount = document.getElementById('bnbAmount').value;
-      const tokenPerBNB = 46153.84;
-      const totalTokens = bnbAmount * tokenPerBNB;
-
-      if (!userAddress) {
-        alert("Please connect your wallet first.");
-        return;
-      }
-
-      // Mock message
-      document.getElementById('purchaseMessage').textContent = `You will receive ${totalTokens.toLocaleString()} SEODER tokens for ${bnbAmount} BNB. (Simulated transaction)`;
-    }
-  </script>
+    <div class="container">
+        <img src="seoder.png" alt="Seoder Logo" width="150" style="margin-bottom: 20px;">
+        <h1>Seoder Token Presale</h1>
+        <p>1 BNB = 46,153.84 SEODER</p>
+        <p>Presale başladı! Cüzdanını bağla ve SEODER Token'larını al!</p>
+        <button class="btn">Cüzdanı Bağla</button>
+    </div>
 </body>
 </html>
