@@ -1,12 +1,74 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Seoder Presale</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    input {
+      padding: 8px;
+      width: 200px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to the Seoder Token Presale!</h1>
-  <p>Here you will be able to buy $SEODER directly.</p>
+  <h1>🚀 Welcome to Seoder Token Presale!</h1>
+  <p>Connect your wallet and buy $SEODER using BNB.</p>
+  <button onclick="connectWallet()">Connect Wallet</button>
+  <br/><br/>
+  <input type="text" id="bnbAmount" placeholder="Enter BNB amount"/>
+  <br/>
+  <button onclick="buyTokens()">Buy $SEODER</button>
+
+  <script>
+    let web3;
+    let userAccount;
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          userAccount = accounts[0];
+          alert("Wallet connected: " + userAccount);
+        } catch (error) {
+          alert("Connection failed.");
+        }
+      } else {
+        alert("Please install MetaMask.");
+      }
+    }
+
+    async function buyTokens() {
+      const bnbAmount = document.getElementById("bnbAmount").value;
+      const bnbInWei = web3.utils.toWei(bnbAmount, 'ether');
+      const presaleAddress = "0xYOUR_PRESALE_WALLET"; // SENİN BNB ALAN CÜZDANIN
+
+      try {
+        await web3.eth.sendTransaction({
+          from: userAccount,
+          to: presaleAddress,
+          value: bnbInWei
+        });
+        alert("Transaction sent! Thank you.");
+      } catch (error) {
+        alert("Transaction failed.");
+        console.error(error);
+      }
+    }
+  </script>
 </body>
 </html>
