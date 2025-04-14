@@ -3,129 +3,127 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Seoder Token Launch</title>
-  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+  <title>Seoder Token Presale</title>
   <style>
     body {
-      font-family: 'Roboto', sans-serif;
-      background: url('background.jpg') no-repeat center center fixed;
-      background-size: cover;
       margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('background.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
       color: white;
-      text-align: center;
     }
-
-    header {
-      padding: 20px;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
     }
-
     .logo {
-      max-width: 200px;
+      height: 60px;
     }
-
     .countdown {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(0,0,0,0.5);
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-size: 18px;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: auto;
-      padding-top: 100px;
-    }
-
-    input, button {
-      padding: 10px;
-      margin: 10px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: none;
-    }
-
-    .about {
+      font-size: 1.2rem;
       background: rgba(0, 0, 0, 0.6);
-      padding: 30px;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+    }
+    .main {
+      text-align: center;
+      margin-top: 5rem;
+    }
+    .buy-box {
+      background: rgba(0, 0, 0, 0.7);
+      display: inline-block;
+      padding: 2rem;
       border-radius: 20px;
-      margin-top: 50px;
+      margin-top: 2rem;
+    }
+    input {
+      padding: 0.5rem;
+      margin-top: 1rem;
+      width: 200px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+      cursor: pointer;
+      background-color: #ffd700;
+      border: none;
+      border-radius: 8px;
+    }
+    footer {
+      margin-top: 4rem;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2rem;
     }
   </style>
 </head>
 <body>
-  <div class="countdown" id="countdown"></div>
 
-  <header>
-    <img src="seoder.png" alt="Seoder Logo" class="logo"/>
-    <h1>Welcome to the Seoder Presale</h1>
-    <h3>1 BNB = 46.153,84 SEODER</h3>
-  </header>
-
-  <div class="container">
-    <button onclick="connectWallet()">Connect Wallet</button>
-    <br>
-    <input type="number" id="bnbAmount" placeholder="Enter BNB Amount" step="0.01" />
-    <br>
-    <button onclick="buyTokens()">Buy SEODER</button>
-    <p id="status"></p>
+  <div class="header">
+    <img src="seoder.png" alt="Seoder Logo" class="logo" />
+    <div class="countdown" id="countdown">Loading timer...</div>
   </div>
 
-  <div class="about">
-    <h2>About Seoder</h2>
+  <div class="main">
+    <h1>Join the Seoder Presale</h1>
+    <p>1 BNB = 46,153.84 SEODER</p>
+    <div class="buy-box">
+      <button onclick="connectWallet()">Connect Wallet</button><br />
+      <input type="number" id="bnbInput" placeholder="Enter BNB amount" />
+      <p id="tokenAmount">You will receive: 0 SEODER</p>
+      <button onclick="buyTokens()">Buy SEODER</button>
+    </div>
+  </div>
+
+  <footer>
+    <h2>About Us</h2>
     <p>
-      Seoder is more than just a meme token – it's a movement driven by community and innovation. 
-      With a fair launch and no private sale, our mission is to build a transparent, fun, and impactful token that lives beyond trends. 
-      Join us as we redefine what meme tokens can achieve.
+      Seoder is a community-driven meme token with a bold vision: to bridge humor and blockchain in a serious, scalable way. 
+      By combining entertainment with DeFi, Seoder empowers users through transparency, fairness, and unstoppable community energy. 
+      Join us and become part of the next meme revolution!
     </p>
-  </div>
+  </footer>
 
   <script>
-    const presaleAddress = "YOUR_CONTRACT_ADDRESS_HERE"; // değiştir
-    const seoderRate = 46153.84;
+    function connectWallet() {
+      alert("Wallet connection coming soon.");
+    }
 
-    async function connectWallet() {
-      if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum);
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-        document.getElementById("status").innerText = "Wallet connected.";
+    function buyTokens() {
+      const bnb = parseFloat(document.getElementById('bnbInput').value);
+      if (!isNaN(bnb) && bnb > 0) {
+        const seoder = bnb * 46153.84;
+        document.getElementById('tokenAmount').innerText = `You will receive: ${seoder.toLocaleString()} SEODER`;
       } else {
-        alert("Please install MetaMask!");
+        alert("Please enter a valid BNB amount.");
       }
     }
 
-    async function buyTokens() {
-      const accounts = await window.ethereum.request({ method: "eth_accounts" });
-      const bnb = document.getElementById("bnbAmount").value;
-
-      if (!bnb || bnb <= 0) return alert("Please enter a valid BNB amount.");
-
-      const value = Web3.utils.toWei(bnb, "ether");
-
-      try {
-        await window.web3.eth.sendTransaction({
-          from: accounts[0],
-          to: presaleAddress,
-          value: value
-        });
-
-        const tokens = (bnb * seoderRate).toLocaleString();
-        document.getElementById("status").innerText = `You bought ${tokens} SEODER tokens!`;
-      } catch (error) {
-        console.error(error);
-        document.getElementById("status").innerText = "Transaction failed.";
-      }
+    function startCountdown() {
+      const endDate = new Date("2025-05-01T00:00:00Z").getTime();
+      const countdownEl = document.getElementById("countdown");
+      setInterval(() => {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+        if (distance < 0) {
+          countdownEl.innerText = "Presale ended.";
+          return;
+        }
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        countdownEl.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }, 1000);
     }
 
-    // Countdown Timer
-    const countdown = document.getElementById("countdown");
-    const endTime = new Date("2025-05-01T00:00:00Z").getTime();
+    startCountdown();
+  </script>
 
-    setInterval(() => {
-      const now = new Date().getTime();
-      const diff = endTime - now;
-
-      if (diff <
+</body>
+</html>
