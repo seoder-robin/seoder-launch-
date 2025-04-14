@@ -217,3 +217,44 @@
     </script>
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+<script>
+  let web3;
+  let accounts;
+  const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe536fe502d";
+  const abi = [
+    {
+      "inputs": [],
+      "name": "buyTokens",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ];
+
+  async function connectWallet() {
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum);
+      await window.ethereum.enable();
+      accounts = await web3.eth.getAccounts();
+      document.getElementById("wallet-address").innerText = `✅ Bağlı: ${accounts[0]}`;
+    } else {
+      alert("Lütfen MetaMask yükleyin.");
+    }
+  }
+
+  async function buyTokens() {
+    const amount = document.getElementById("bnbAmount").value;
+    if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
+    const contract = new web3.eth.Contract(abi, presaleAddress);
+    try {
+      await contract.methods.buyTokens().send({
+        from: accounts[0],
+        value: web3.utils.toWei(amount, "ether")
+      });
+      alert("✅ SEODER başarıyla satın alındı!");
+    } catch (err) {
+      alert("❌ İşlem başarısız.");
+    }
+  }
+</script>
