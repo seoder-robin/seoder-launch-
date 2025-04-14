@@ -1,94 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Seoder Presale</title>
-  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seoder Token Lansmanı</title>
   <style>
     body {
+      margin: 0;
+      padding: 0;
+      background-image: url('background.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       font-family: Arial, sans-serif;
+      color: white;
       text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      backdrop-filter: brightness(0.6);
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
       padding: 40px;
+      border-radius: 15px;
+      margin: 20px;
     }
 
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin-top: 20px;
-      cursor: pointer;
+    h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
     }
 
-    input {
-      padding: 10px;
-      font-size: 16px;
-      width: 200px;
+    p {
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto;
     }
   </style>
-  body {
-    background-image: url('background.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 40px;
 </head>
 <body>
-  <h1>Welcome to the Seoder Token Presale!</h1>
-  <p>Here you will be able to buy $SEODER directly.</p>
-
-  <button onclick="connectWallet()">Connect Wallet</button>
-  <br><br>
-
-  <input type="text" id="bnbAmount" placeholder="Enter BNB amount" />
-  <br>
-
-  <button onclick="buyTokens()">Buy $SEODER</button>
-
-  <script>
-    const presaleWallet = "0xAF0972A406bd733Ac2531bee677b044b02028315";
-
-    async function connectWallet() {
-      if (typeof window.ethereum !== "undefined") {
-        try {
-          const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-          alert("Wallet connected: " + accounts[0]);
-        } catch (error) {
-          alert("Connection error");
-        }
-      } else {
-        alert("Please install MetaMask.");
-      }
-    }
-
-    async function buyTokens() {
-      const amount = document.getElementById("bnbAmount").value;
-      if (!amount || isNaN(amount)) {
-        alert("Enter a valid amount");
-        return;
-      }
-
-      if (typeof window.ethereum !== "undefined") {
-        const web3 = new Web3(window.ethereum);
-        const accounts = await web3.eth.getAccounts();
-        const from = accounts[0];
-
-        try {
-          await web3.eth.sendTransaction({
-            from: from,
-            to: presaleWallet,
-            value: web3.utils.toWei(amount, "ether"),
-          });
-          alert("Transaction sent!");
-        } catch (error) {
-          alert("Transaction failed");
-        }
-      } else {
-        alert("Please install MetaMask.");
-      }
-    }
-  </script>
+  <div class="container">
+    <h1>🚀 Seoder Token</h1>
+    <p>Yeni nesil topluluk odaklı meme coin! Lansmana hazır olun.</p>
+  </div>
 </body>
 </html>
