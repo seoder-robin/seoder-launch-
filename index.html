@@ -4,126 +4,106 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Seoder Token Presale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-image: url('background.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
+      font-family: 'Orbitron', sans-serif;
+      background: #0d0d0d;
       color: white;
+      margin: 0;
+      padding: 0;
+      text-align: center;
     }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
+    header {
+      padding: 2rem 1rem;
     }
     .logo {
-      height: 60px;
+      width: 100px;
+      margin-bottom: 1rem;
     }
-    .countdown {
-      font-size: 1.2rem;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-    }
-    .main {
-      text-align: center;
-      margin-top: 5rem;
-    }
-    .buy-box {
-      background: rgba(0, 0, 0, 0.7);
-      display: inline-block;
+    .container {
+      max-width: 600px;
+      margin: auto;
       padding: 2rem;
+      background-color: #1a1a1a;
       border-radius: 20px;
-      margin-top: 2rem;
-    }
-    input {
-      padding: 0.5rem;
-      margin-top: 1rem;
-      width: 200px;
-      font-size: 1rem;
     }
     button {
-      padding: 0.7rem 1.5rem;
+      background-color: #ff00cc;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
       font-size: 1rem;
       margin-top: 1rem;
-      cursor: pointer;
-      background-color: #ffd700;
-      border: none;
-      border-radius: 8px;
     }
-    footer {
-      margin-top: 4rem;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 2rem;
+    input {
+      padding: 0.8rem;
+      width: 100%;
+      margin-top: 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    .info {
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-
-  <div class="header">
+  <header>
     <img src="seoder.png" alt="Seoder Logo" class="logo" />
-    <div class="countdown" id="countdown">Loading timer...</div>
-  </div>
+    <h1>Seoder Token Presale</h1>
+    <p>Join the presale now using BNB and become part of the Seoder community!</p>
+  </header>
 
-  <div class="main">
-    <h1>Join the Seoder Presale</h1>
-    <p>1 BNB = 46,153.84 SEODER</p>
-    <div class="buy-box">
-      <button onclick="connectWallet()">Connect Wallet</button><br />
-      <input type="number" id="bnbInput" placeholder="Enter BNB amount" />
-      <p id="tokenAmount">You will receive: 0 SEODER</p>
-      <button onclick="buyTokens()">Buy SEODER</button>
+  <div class="container">
+    <button onclick="connectWallet()">🔗 Connect Wallet</button>
+
+    <div class="info">
+      <p><strong>Price:</strong> 1 BNB = 100000 SEODER</p>
+      <input type="number" id="bnbAmount" placeholder="Enter BNB amount" />
+      <button onclick="buyTokens()">💸 Buy SEODER</button>
     </div>
   </div>
 
-  <footer>
-    <h2>About Us</h2>
-    <p>
-      Seoder is a community-driven meme token with a bold vision: to bridge humor and blockchain in a serious, scalable way. 
-      By combining entertainment with DeFi, Seoder empowers users through transparency, fairness, and unstoppable community energy. 
-      Join us and become part of the next meme revolution!
-    </p>
-  </footer>
-
+  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
   <script>
-    function connectWallet() {
-      alert("Wallet connection coming soon.");
-    }
+    let provider;
+    let signer;
+    let userAddress;
 
-    function buyTokens() {
-      const bnb = parseFloat(document.getElementById('bnbInput').value);
-      if (!isNaN(bnb) && bnb > 0) {
-        const seoder = bnb * 46153.84;
-        document.getElementById('tokenAmount').innerText = `You will receive: ${seoder.toLocaleString()} SEODER`;
+    async function connectWallet() {
+      if (window.ethereum) {
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        signer = provider.getSigner();
+        userAddress = await signer.getAddress();
+        alert("Connected: " + userAddress);
       } else {
-        alert("Please enter a valid BNB amount.");
+        alert("Please install MetaMask!");
       }
     }
 
-    function startCountdown() {
-      const endDate = new Date("2025-05-01T00:00:00Z").getTime();
-      const countdownEl = document.getElementById("countdown");
-      setInterval(() => {
-        const now = new Date().getTime();
-        const distance = endDate - now;
-        if (distance < 0) {
-          countdownEl.innerText = "Presale ended.";
-          return;
-        }
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        countdownEl.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-      }, 1000);
+    async function buyTokens() {
+      const bnbAmount = document.getElementById("bnbAmount").value;
+      const contractAddress = "YOUR_CONTRACT_ADDRESS";
+      const contractAbi = [
+        // Presale contract ABI kısmı buraya
+      ];
+
+      const contract = new ethers.Contract(contractAddress, contractAbi, signer);
+      const amountInWei = ethers.utils.parseEther(bnbAmount);
+
+      try {
+        const tx = await contract.buyTokens({ value: amountInWei });
+        await tx.wait();
+        alert("Transaction successful!");
+      } catch (error) {
+        alert("Transaction failed: " + error.message);
+      }
     }
-
-    startCountdown();
   </script>
-
 </body>
 </html>
