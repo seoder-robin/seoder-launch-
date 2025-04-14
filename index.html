@@ -3,123 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Seoder Token</title>
+  <title>Seoder Token Presale</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #111;
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      scroll-behavior: smooth;
-    }
-
-    header {
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 50px 20px 20px;
+      padding: 40px;
     }
-
-    h1 {
-      font-size: 3rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .section {
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .section h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-    }
-
-    .section p {
-      font-size: 1.2rem;
-      line-height: 1.8;
-    }
-
-    #timer-box {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: rgba(0, 128, 0, 0.85);
-      padding: 12px 20px;
-      border-radius: 12px;
+    .btn {
+      padding: 12px 24px;
+      margin: 10px;
       font-size: 16px;
-      font-weight: 600;
-      color: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      z-index: 9999;
-      transition: all 0.3s ease-in-out;
+      background-color: #22c55e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
-
-    #timer-box:hover {
-      transform: scale(1.05);
-      background-color: rgba(0, 150, 0, 0.9);
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #aaa;
-      font-size: 0.9rem;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Countdown Box -->
-  <div id="timer-box">
-    <span id="countdown"></span>
-  </div>
-
-  <!-- Title -->
-  <header>
-    <h1>Seoder Token</h1>
-  </header>
-
-  <!-- About Section -->
-  <div class="section">
-    <h2>About Seoder</h2>
-    <p>
-      Seoder is a community-driven meme token aiming to build a transparent, accessible, and decentralized ecosystem in the DeFi space.
-      Our mission is to not only grow through community participation and humor but also to deliver real value and utility,
-      combining fun with functionality.
-    </p>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    © 2025 Seoder Token. All Rights Reserved.
-  </footer>
-
-  <!-- Countdown Script -->
-  <script>
-    const countdown = document.getElementById("countdown");
-    const endDate = new Date("2025-10-15T00:00:00").getTime();
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = endDate - now;
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      countdown.innerHTML = `⏳ Presale Ends In: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-      if (distance < 0) {
-        countdown.innerHTML = "🚀 Presale has ended!";
-      }
-    }
-
-    setInterval(updateCountdown, 1000);
-  </script>
-
-</body>
-</html>
+    .input {
+      padding: 10px;
+      width: 200px;
+      font-size: 16px;
+      margin: 10px;
