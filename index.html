@@ -11,41 +11,43 @@
       text-align: center;
       padding: 40px;
     }
+
     button {
       padding: 10px 20px;
       font-size: 16px;
       margin-top: 20px;
       cursor: pointer;
     }
+
     input {
-      padding: 8px;
+      padding: 10px;
+      font-size: 16px;
       width: 200px;
-      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>🚀 Welcome to Seoder Token Presale!</h1>
-  <p>Connect your wallet and buy $SEODER using BNB.</p>
+  <h1>Welcome to the Seoder Token Presale!</h1>
+  <p>Here you will be able to buy $SEODER directly.</p>
+
   <button onclick="connectWallet()">Connect Wallet</button>
-  <br/><br/>
-  <input type="text" id="bnbAmount" placeholder="Enter BNB amount"/>
-  <br/>
+  <br><br>
+
+  <input type="text" id="bnbAmount" placeholder="Enter BNB amount" />
+  <br>
+
   <button onclick="buyTokens()">Buy $SEODER</button>
 
   <script>
-    let web3;
-    let userAccount;
+    const presaleWallet = "0xAF0972A406bd733Ac2531bee677b044b02028315";
 
     async function connectWallet() {
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
+      if (typeof window.ethereum !== "undefined") {
         try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          userAccount = accounts[0];
-          alert("Wallet connected: " + userAccount);
+          const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+          alert("Wallet connected: " + accounts[0]);
         } catch (error) {
-          alert("Connection failed.");
+          alert("Connection error");
         }
       } else {
         alert("Please install MetaMask.");
@@ -53,20 +55,29 @@
     }
 
     async function buyTokens() {
-      const bnbAmount = document.getElementById("bnbAmount").value;
-      const bnbInWei = web3.utils.toWei(bnbAmount, 'ether');
-      const presaleAddress = "0xYOUR_PRESALE_WALLET"; // SENİN BNB ALAN CÜZDANIN
+      const amount = document.getElementById("bnbAmount").value;
+      if (!amount || isNaN(amount)) {
+        alert("Enter a valid amount");
+        return;
+      }
 
-      try {
-        await web3.eth.sendTransaction({
-          from: userAccount,
-          to: presaleAddress,
-          value: bnbInWei
-        });
-        alert("Transaction sent! Thank you.");
-      } catch (error) {
-        alert("Transaction failed.");
-        console.error(error);
+      if (typeof window.ethereum !== "undefined") {
+        const web3 = new Web3(window.ethereum);
+        const accounts = await web3.eth.getAccounts();
+        const from = accounts[0];
+
+        try {
+          await web3.eth.sendTransaction({
+            from: from,
+            to: presaleWallet,
+            value: web3.utils.toWei(amount, "ether"),
+          });
+          alert("Transaction sent!");
+        } catch (error) {
+          alert("Transaction failed");
+        }
+      } else {
+        alert("Please install MetaMask.");
       }
     }
   </script>
