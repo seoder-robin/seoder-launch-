@@ -4,27 +4,124 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Seoder Token Presale</title>
-  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
   <style>
     body {
-      background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
+      margin: 0;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
       text-align: center;
-      padding: 40px;
     }
-    .btn {
-      padding: 12px 24px;
-      margin: 10px;
-      font-size: 16px;
-      background-color: #22c55e;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+    header {
+      padding: 20px;
     }
-    .input {
+    #logo {
+      width: 180px;
+    }
+    .countdown {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.6);
+      padding: 10px 15px;
+      border-radius: 10px;
+    }
+    .presale-box {
+      background: rgba(0, 0, 0, 0.7);
+      margin: 100px auto;
+      padding: 30px;
+      max-width: 400px;
+      border-radius: 12px;
+    }
+    input {
+      width: 90%;
       padding: 10px;
-      width: 200px;
-      font-size: 16px;
-      margin: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #00d084;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="countdown" id="countdown"></div>
+
+  <header>
+    <img id="logo" src="seoder.png" alt="Seoder Logo" />
+    <h1>Seoder Token Presale</h1>
+    <p>1 BNB = 46.153,84 SEODER</p>
+    <p>Minimum Purchase: 0.10 BNB</p>
+  </header>
+
+  <div class="presale-box">
+    <button onclick="connectWallet()">🔗 Connect Wallet</button>
+    <input type="number" id="bnbAmount" placeholder="Enter BNB amount (min 0.10)">
+    <p id="seoderAmount">You will receive: 0 SEODER</p>
+    <button onclick="buyTokens()">Buy SEODER</button>
+  </div>
+
+  <script>
+    // Countdown Timer - 6 months from April 14, 2025
+    const endDate = new Date('2025-10-14T00:00:00');
+    const countdownEl = document.getElementById("countdown");
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = endDate - now;
+
+      if (diff <= 0) {
+        countdownEl.innerHTML = "Presale Ended";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Wallet Connection & Purchase Simulation
+    let account;
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        account = accounts[0];
+        alert("Wallet connected: " + account);
+      } else {
+        alert("MetaMask not found.");
+      }
+    }
+
+    document.getElementById("bnbAmount").addEventListener("input", function () {
+      const bnb = parseFloat(this.value);
+      const seoder = bnb * 46153.84;
+      document.getElementById("seoderAmount").textContent = `You will receive: ${seoder.toLocaleString('en-US')} SEODER`;
+    });
+
+    async function buyTokens() {
+      const bnbAmount = parseFloat(document.getElementById("bnbAmount").value);
+      if (!account) return alert("Please connect your wallet first.");
+      if (isNaN(bnbAmount) || bnbAmount < 0.10) return alert("Minimum purchase is 0.10 BNB");
+
+      alert(`Simulating transfer of ${bnbAmount} BNB for ${(bnbAmount * 46153.84).toLocaleString()} SEODER`);
+      // Buraya gerçek kontratla etkileşim eklenecek
+    }
+  </script>
+</body>
+</html>
