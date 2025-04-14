@@ -51,6 +51,28 @@
         .btn:hover {
             background-color: #e60073;
         }
+
+        .countdown {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        input {
+            padding: 10px;
+            width: 80%;
+            max-width: 300px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        #seoderAmount {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #00ffcc;
+        }
     </style>
 </head>
 <body>
@@ -58,8 +80,49 @@
         <img src="seoder.png" alt="Seoder Logo" width="150" style="margin-bottom: 20px;">
         <h1>Seoder Token Presale</h1>
         <p>1 BNB = 46,153.84 SEODER</p>
-        <p>Presale başladı! Cüzdanını bağla ve SEODER Token'larını al!</p>
+
+        <!-- Sayaç -->
+        <div class="countdown" id="countdown">Yükleniyor...</div>
+
+        <!-- BNB Girişi -->
+        <input type="number" id="bnbInput" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
+        <div id="seoderAmount"></div>
+
         <button class="btn">Cüzdanı Bağla</button>
     </div>
+
+    <script>
+        // Geri Sayım
+        const countdownDate = new Date("2025-04-20T20:00:00").getTime();
+
+        const countdownFunc = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownFunc);
+                document.getElementById("countdown").innerHTML = "Presale başladı!";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = 
+                `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
+        }, 1000);
+
+        // SEODER Hesaplama
+        function calculateSeoder() {
+            const bnb = parseFloat(document.getElementById("bnbInput").value);
+            const rate = 46153.84;
+            const seoder = bnb * rate;
+
+            document.getElementById("seoderAmount").innerText =
+                bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
+        }
+    </script>
 </body>
 </html>
