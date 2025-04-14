@@ -3,125 +3,129 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Seoder Token Presale</title>
+  <title>Seoder Token Launch</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
   <style>
     body {
-      margin: 0;
+      font-family: 'Roboto', sans-serif;
       background: url('background.jpg') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Segoe UI', sans-serif;
-      color: #fff;
+      margin: 0;
+      color: white;
       text-align: center;
     }
+
     header {
       padding: 20px;
     }
-    #logo {
-      width: 180px;
+
+    .logo {
+      max-width: 200px;
     }
+
     .countdown {
       position: absolute;
       top: 20px;
       right: 20px;
-      background: rgba(0,0,0,0.6);
-      padding: 10px 15px;
-      border-radius: 10px;
-    }
-    .presale-box {
-      background: rgba(0, 0, 0, 0.7);
-      margin: 100px auto;
-      padding: 30px;
-      max-width: 400px;
-      border-radius: 12px;
-    }
-    input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 6px;
-    }
-    button {
+      background: rgba(0,0,0,0.5);
       padding: 10px 20px;
-      background-color: #00d084;
+      border-radius: 10px;
+      font-size: 18px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding-top: 100px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
       border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      color: #fff;
-      font-weight: bold;
+    }
+
+    .about {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 20px;
+      margin-top: 50px;
     }
   </style>
 </head>
 <body>
-
   <div class="countdown" id="countdown"></div>
 
   <header>
-    <img id="logo" src="seoder.png" alt="Seoder Logo" />
-    <h1>Seoder Token Presale</h1>
-    <p>1 BNB = 46.153,84 SEODER</p>
-    <p>Minimum Purchase: 0.10 BNB</p>
+    <img src="seoder.png" alt="Seoder Logo" class="logo"/>
+    <h1>Welcome to the Seoder Presale</h1>
+    <h3>1 BNB = 46.153,84 SEODER</h3>
   </header>
 
-  <div class="presale-box">
-    <button onclick="connectWallet()">🔗 Connect Wallet</button>
-    <input type="number" id="bnbAmount" placeholder="Enter BNB amount (min 0.10)">
-    <p id="seoderAmount">You will receive: 0 SEODER</p>
+  <div class="container">
+    <button onclick="connectWallet()">Connect Wallet</button>
+    <br>
+    <input type="number" id="bnbAmount" placeholder="Enter BNB Amount" step="0.01" />
+    <br>
     <button onclick="buyTokens()">Buy SEODER</button>
+    <p id="status"></p>
+  </div>
+
+  <div class="about">
+    <h2>About Seoder</h2>
+    <p>
+      Seoder is more than just a meme token – it's a movement driven by community and innovation. 
+      With a fair launch and no private sale, our mission is to build a transparent, fun, and impactful token that lives beyond trends. 
+      Join us as we redefine what meme tokens can achieve.
+    </p>
   </div>
 
   <script>
-    // Countdown Timer - 6 months from April 14, 2025
-    const endDate = new Date('2025-10-14T00:00:00');
-    const countdownEl = document.getElementById("countdown");
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = endDate - now;
-
-      if (diff <= 0) {
-        countdownEl.innerHTML = "Presale Ended";
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // Wallet Connection & Purchase Simulation
-    let account;
+    const presaleAddress = "YOUR_CONTRACT_ADDRESS_HERE"; // değiştir
+    const seoderRate = 46153.84;
 
     async function connectWallet() {
       if (window.ethereum) {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        account = accounts[0];
-        alert("Wallet connected: " + account);
+        window.web3 = new Web3(window.ethereum);
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        document.getElementById("status").innerText = "Wallet connected.";
       } else {
-        alert("MetaMask not found.");
+        alert("Please install MetaMask!");
       }
     }
 
-    document.getElementById("bnbAmount").addEventListener("input", function () {
-      const bnb = parseFloat(this.value);
-      const seoder = bnb * 46153.84;
-      document.getElementById("seoderAmount").textContent = `You will receive: ${seoder.toLocaleString('en-US')} SEODER`;
-    });
-
     async function buyTokens() {
-      const bnbAmount = parseFloat(document.getElementById("bnbAmount").value);
-      if (!account) return alert("Please connect your wallet first.");
-      if (isNaN(bnbAmount) || bnbAmount < 0.10) return alert("Minimum purchase is 0.10 BNB");
+      const accounts = await window.ethereum.request({ method: "eth_accounts" });
+      const bnb = document.getElementById("bnbAmount").value;
 
-      alert(`Simulating transfer of ${bnbAmount} BNB for ${(bnbAmount * 46153.84).toLocaleString()} SEODER`);
-      // Buraya gerçek kontratla etkileşim eklenecek
+      if (!bnb || bnb <= 0) return alert("Please enter a valid BNB amount.");
+
+      const value = Web3.utils.toWei(bnb, "ether");
+
+      try {
+        await window.web3.eth.sendTransaction({
+          from: accounts[0],
+          to: presaleAddress,
+          value: value
+        });
+
+        const tokens = (bnb * seoderRate).toLocaleString();
+        document.getElementById("status").innerText = `You bought ${tokens} SEODER tokens!`;
+      } catch (error) {
+        console.error(error);
+        document.getElementById("status").innerText = "Transaction failed.";
+      }
     }
-  </script>
-</body>
-</html>
+
+    // Countdown Timer
+    const countdown = document.getElementById("countdown");
+    const endTime = new Date("2025-05-01T00:00:00Z").getTime();
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const diff = endTime - now;
+
+      if (diff <
