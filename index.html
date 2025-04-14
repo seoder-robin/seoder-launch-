@@ -196,3 +196,45 @@
   </script>
 </body>
 </html>
+<!-- Countdown Timer (Fixed Top Right Corner) -->
+<div id="countdown-timer" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #00ff00;
+    padding: 12px 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    border-radius: 8px;
+    z-index: 9999;
+">
+  Presale Ends In: <span id="countdown"></span>
+</div>
+
+<script>
+  // Set your presale end date here (YYYY-MM-DD format)
+  const presaleEndDate = new Date("2025-10-14T23:59:59").getTime();
+
+  const countdownElement = document.getElementById("countdown");
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = presaleEndDate - now;
+
+    if (distance <= 0) {
+      countdownElement.innerHTML = "Presale Ended";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
