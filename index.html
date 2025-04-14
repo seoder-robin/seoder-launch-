@@ -159,7 +159,9 @@
     </div>
 
     <script>
-        const countdownDate = new Date("2025-04-20T20:00:00").getTime() + 240
+        // Sayaç için 240 gün sonrasını hesapla
+        const countdownDate = new Date();
+        countdownDate.setDate(countdownDate.getDate() + 240);
 
         const countdownFunc = setInterval(() => {
             const now = new Date().getTime();
@@ -180,6 +182,7 @@
                 `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
         }, 1000);
 
+        // SEODER hesaplama
         function calculateSeoder() {
             const bnb = parseFloat(document.getElementById("bnbInput").value);
             const rate = 46153.84;
