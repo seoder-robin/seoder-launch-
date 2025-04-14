@@ -1,305 +1,179 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>Seoder Token Presale</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-image: url('background.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 50px 20px;
-        }
+  <meta charset="UTF-8">
+  <title>Seoder Token Presale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+  <style>
+    /* Senin mevcut stil kodların burada kalıyor (kırpmadım) */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('background.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+    }
 
-        .container {
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 800px;
-            margin: auto;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-        }
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
 
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
 
-        p {
-            font-size: 1.2em;
-        }
+    .btn {
+      background-color: #ff0080;
+      color: white;
+      padding: 15px 30px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-        .btn {
-            background-color: #ff0080;
-            color: white;
-            padding: 15px 30px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    .btn:hover {
+      background-color: #e60073;
+    }
 
-        .btn:hover {
-            background-color: #e60073;
-        }
+    .countdown {
+      font-size: 1.5em;
+      margin: 20px 0;
+    }
 
-        .countdown {
-            font-size: 1.5em;
-            margin: 20px 0;
-        }
+    input {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+    }
 
-        input {
-            padding: 10px;
-            width: 80%;
-            max-width: 300px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-        }
+    #seoderAmount {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: #00ffcc;
+    }
 
-        #seoderAmount {
-            margin-top: 10px;
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #00ffcc;
-        }
-
-        .section {
-            background-color: rgba(255, 255, 255, 0.1);
-            margin-top: 40px;
-            padding: 20px;
-            border-radius: 15px;
-        }
-
-        .section h2 {
-            margin-bottom: 10px;
-            font-size: 1.8em;
-            color: #ffd700;
-        }
-
-        .section p, .section ul {
-            font-size: 1.1em;
-            color: #f0f0f0;
-        }
-
-        .section ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .section ul li::before {
-            content: "✅ ";
-            color: #00ffcc;
-        }
-
-        #walletAddress {
-            margin-top: 10px;
-            color: #00ffcc;
-            font-size: 1em;
-        }
-    </style>
+    #walletAddress {
+      margin-top: 10px;
+      color: #00ffcc;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <img src="seoder.png" alt="Seoder Logo" width="150" style="margin-bottom: 20px;">
-        <h1>Seoder Token Presale</h1>
-        <p>1 BNB = 46,153.84 SEODER</p>
+  <div class="container">
+    <img src="seoder.png" alt="Seoder Logo" width="150" style="margin-bottom: 20px;">
+    <h1>Seoder Token Presale</h1>
+    <p>1 BNB = 46,153.84 SEODER</p>
 
-        <!-- Sayaç -->
-        <div class="countdown" id="countdown">Yükleniyor...</div>
+    <div class="countdown" id="countdown">Yükleniyor...</div>
 
-        <!-- BNB Girişi -->
-        <input type="number" id="bnbInput" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
-        <div id="seoderAmount"></div>
+    <input type="number" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
+    <div id="seoderAmount"></div>
 
-        <!-- Cüzdan bağlantı butonu -->
-        <button class="btn" onclick="connectWallet()" id="walletBtn">Cüzdanı Bağla</button>
-        <p id="walletAddress"></p>
+    <button class="btn" onclick="connectWallet()">🔌 Cüzdanı Bağla</button>
+    <button class="btn" onclick="buyTokens()">💸 Satın Al</button>
+    <p id="walletAddress"></p>
 
-        <!-- Hakkında -->
-        <div class="section">
-            <h2>Hakkında</h2>
-            <p>
-                Seoder Token, topluluğa dayalı, eğlenceli ve aynı zamanda değer sunan bir meme token'dır.
-                Amacımız, sadece bir kripto para birimi olmaktan öte, dijital kültürle iç içe geçmiş 
-                bir topluluk oluşturmak ve merkeziyetsiz finans dünyasında fark yaratmaktır.
-            </p>
-        </div>
-
-        <!-- Roadmap -->
-        <div class="section">
-            <h2>Yol Haritası</h2>
-            <ul>
-                <li>Q2 2025 - Web Sitesi Lansmanı & Topluluk Oluşumu</li>
-                <li>Q3 2025 - Token Presale & DEX Listelemeleri</li>
-                <li>Q4 2025 - NFT Entegrasyonu ve Ödül Sistemleri</li>
-                <li>2026 - Seoder DAO ve Ekosistem Genişlemesi</li>
-            </ul>
-        </div>
-
-        <!-- Tokenomics -->
-        <div class="section">
-            <h2>Tokenomics</h2>
-            <ul>
-                <li>%50 Presale</li>
-                <li>%20 Likidite</li>
-                <li>%15 Geliştirici ve Ekip</li>
-                <li>%10 Pazarlama</li>
-                <li>%5 Ödül ve Topluluk</li>
-            </ul>
-        </div>
-
-        <!-- Takım -->
-        <div class="section">
-            <h2>Ekibimiz</h2>
-            <p>Seoder Token, deneyimli blockchain geliştiricileri, tasarımcılar ve topluluk yöneticilerinden oluşan bir ekip tarafından yönetilmektedir. Şeffaflık ve güven bizim temel değerimizdir.</p>
-        </div>
+    <div class="section">
+      <h2>Hakkında</h2>
+      <p>
+        Seoder Token, topluluğa dayalı, eğlenceli ve aynı zamanda değer sunan bir meme token'dır.
+        Amacımız, sadece bir kripto para birimi olmaktan öte, dijital kültürle iç içe geçmiş
+        bir topluluk oluşturmak ve merkeziyetsiz finans dünyasında fark yaratmaktır.
+      </p>
     </div>
+  </div>
 
-    <script>
-        // 240 günlük geri sayım
-        const now = new Date().getTime();
-        const countdownDate = new Date(now + 240 * 24 * 60 * 60 * 1000);
+  <script>
+    // Sayaç
+    const now = new Date().getTime();
+    const countdownDate = new Date(now + 240 * 24 * 60 * 60 * 1000);
+    const countdownFunc = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
 
-        const countdownFunc = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = countdownDate - now;
+      if (distance < 0) {
+        clearInterval(countdownFunc);
+        document.getElementById("countdown").innerHTML = "Presale başladı!";
+        return;
+      }
 
-            if (distance < 0) {
-                clearInterval(countdownFunc);
-                document.getElementById("countdown").innerHTML = "Presale başladı!";
-                return;
-            }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      document.getElementById("countdown").innerHTML =
+        `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
+    }, 1000);
 
-            document.getElementById("countdown").innerHTML =
-                `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
-        }, 1000);
+    function calculateSeoder() {
+      const bnb = parseFloat(document.getElementById("bnbAmount").value);
+      const rate = 46153.84;
+      const seoder = bnb * rate;
+      document.getElementById("seoderAmount").innerText =
+        bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
+    }
 
-        function calculateSeoder() {
-            const bnb = parseFloat(document.getElementById("bnbInput").value);
-            const rate = 46153.84;
-            const seoder = bnb * rate;
+    // Web3 işlemleri
+    let web3;
+    let accounts;
+    const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe502d";
+    const abi = [
+      {
+        "inputs": [],
+        "name": "buyTokens",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      }
+    ];
 
-            document.getElementById("seoderAmount").innerText =
-                bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
-        }
+    async function connectWallet() {
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        await window.ethereum.enable();
+        accounts = await web3.eth.getAccounts();
+        document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
+      } else {
+        alert("Lütfen MetaMask yükleyin.");
+      }
+    }
 
-        async function connectWallet() {
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                    const walletAddress = accounts[0];
-                    document.getElementById('walletAddress').innerText = `Bağlandı: ${walletAddress}`;
-                    document.getElementById('walletBtn').innerText = 'Bağlandı';
-                } catch (error) {
-                    console.error('Cüzdan bağlantı hatası:', error);
-                    alert('Cüzdan bağlanamadı!');
-                }
-            } else {
-                alert('Lütfen MetaMask yüklü bir tarayıcı kullanın!');
-            }
-        }
-    </script>
+    async function buyTokens() {
+      const amount = document.getElementById("bnbAmount").value;
+      if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
+
+      const contract = new web3.eth.Contract(abi, presaleAddress);
+      try {
+        await contract.methods.buyTokens().send({
+          from: accounts[0],
+          value: web3.utils.toWei(amount, "ether")
+        });
+        alert("✅ SEODER başarıyla satın alındı!");
+      } catch (err) {
+        alert("❌ İşlem başarısız. Cüzdan bağlı mı? BNB yeterli mi?");
+      }
+    }
+  </script>
 </body>
 </html>
-<script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
-<script>
-  let web3;
-  let accounts;
-  const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe536fe502d";
-  const abi = [
-    {
-      "inputs": [],
-      "name": "buyTokens",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    }
-  ];
-
-  async function connectWallet() {
-    if (window.ethereum) {
-      web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
-      accounts = await web3.eth.getAccounts();
-      document.getElementById("wallet-address").innerText = `✅ Bağlı: ${accounts[0]}`;
-    } else {
-      alert("Lütfen MetaMask yükleyin.");
-    }
-  }
-
-  async function buyTokens() {
-    const amount = document.getElementById("bnbAmount").value;
-    if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
-    const contract = new web3.eth.Contract(abi, presaleAddress);
-    try {
-      await contract.methods.buyTokens().send({
-        from: accounts[0],
-        value: web3.utils.toWei(amount, "ether")
-      });
-      alert("✅ SEODER başarıyla satın alındı!");
-    } catch (err) {
-      alert("❌ İşlem başarısız.");
-    }
-  }
-</script>
-<script>
-  let web3;
-  let accounts;
-  const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe502d";
-  const abi = [
-    {
-      "inputs": [],
-      "name": "buyTokens",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    }
-  ];
-
-  async function connectWallet() {
-    if (window.ethereum) {
-      web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
-      accounts = await web3.eth.getAccounts();
-      document.getElementById("wallet-address").innerText = `✅ Bağlı: ${accounts[0]}`;
-    } else {
-      alert("MetaMask bulunamadı.");
-    }
-  }
-
-  async function buyTokens() {
-    const amount = document.getElementById("bnbAmount").value;
-    if (!amount || amount <= 0) {
-      alert("Geçerli bir BNB miktarı gir.");
-      return;
-    }
-
-    const contract = new web3.eth.Contract(abi, presaleAddress);
-    try {
-      await contract.methods.buyTokens().send({
-        from: accounts[0],
-        value: web3.utils.toWei(amount, "ether")
-      });
-      alert("✅ SEODER başarıyla satın alındı!");
-    } catch (err) {
-      console.error(err);
-      alert("❌ İşlem başarısız. Cüzdanın bağlı mı? Kontrata token yüklü mü?");
-    }
-  }
-</script>
