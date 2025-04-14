@@ -101,6 +101,12 @@
             content: "✅ ";
             color: #00ffcc;
         }
+
+        #walletAddress {
+            margin-top: 10px;
+            color: #00ffcc;
+            font-size: 1em;
+        }
     </style>
 </head>
 <body>
@@ -116,7 +122,9 @@
         <input type="number" id="bnbInput" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
         <div id="seoderAmount"></div>
 
-        <button class="btn">Cüzdanı Bağla</button>
+        <!-- Cüzdan bağlantı butonu -->
+        <button class="btn" onclick="connectWallet()" id="walletBtn">Cüzdanı Bağla</button>
+        <p id="walletAddress"></p>
 
         <!-- Hakkında -->
         <div class="section">
@@ -159,9 +167,9 @@
     </div>
 
     <script>
-        // Sayaç için 240 gün sonrasını hesapla
-        const countdownDate = new Date();
-        countdownDate.setDate(countdownDate.getDate() + 240);
+        // 240 günlük geri sayım
+        const now = new Date().getTime();
+        const countdownDate = new Date(now + 240 * 24 * 60 * 60 * 1000);
 
         const countdownFunc = setInterval(() => {
             const now = new Date().getTime();
@@ -182,7 +190,6 @@
                 `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
         }, 1000);
 
-        // SEODER hesaplama
         function calculateSeoder() {
             const bnb = parseFloat(document.getElementById("bnbInput").value);
             const rate = 46153.84;
@@ -190,6 +197,22 @@
 
             document.getElementById("seoderAmount").innerText =
                 bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
+        }
+
+        async function connectWallet() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                    const walletAddress = accounts[0];
+                    document.getElementById('walletAddress').innerText = `Bağlandı: ${walletAddress}`;
+                    document.getElementById('walletBtn').innerText = 'Bağlandı';
+                } catch (error) {
+                    console.error('Cüzdan bağlantı hatası:', error);
+                    alert('Cüzdan bağlanamadı!');
+                }
+            } else {
+                alert('Lütfen MetaMask yüklü bir tarayıcı kullanın!');
+            }
         }
     </script>
 </body>
