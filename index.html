@@ -6,17 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
   <style>
-    /* Matrix Background Styles */
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: black;
-      overflow: auto; /* Sayfa alt kısmının görünmesini sağlar */
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(45deg, #1a1a1a, #3c3c3c);
       color: white;
       text-align: center;
-      padding: 50px 20px;
+      padding: 0;
+      overflow: hidden;
     }
 
+    /* Matrix Effect */
     #matrix {
       position: absolute;
       top: 0;
@@ -27,73 +27,89 @@
     }
 
     .container {
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.8);
       border-radius: 20px;
       padding: 40px;
       max-width: 800px;
-      margin: auto;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-      min-height: 100vh; /* Sayfanın tamamını kapsayacak şekilde */
+      margin: 20px auto;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #ff0080;
+    }
+
+    .countdown {
+      font-size: 1.5em;
+      margin: 20px 0;
+      color: #ffd700;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      max-width: 350px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2em;
+      background-color: #333;
+      color: white;
+    }
+
+    #seoderAmount {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.5em;
+      color: #00ffcc;
     }
 
     .btn {
       background-color: #ff0080;
       color: white;
       padding: 15px 30px;
-      margin-top: 10px;
+      margin-top: 20px;
       border: none;
-      border-radius: 10px;
-      font-size: 1.1em;
+      border-radius: 25px;
+      font-size: 1.3em;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      width: 60%;
+      margin: 10px auto;
+      font-weight: bold;
     }
 
     .btn:hover {
       background-color: #e60073;
-    }
-
-    input {
-      padding: 10px;
-      width: 80%;
-      max-width: 300px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-    }
-
-    .countdown {
-      font-size: 1.5em;
-      margin: 20px 0;
-    }
-
-    #seoderAmount {
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 1.2em;
-      color: #00ffcc;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
     }
 
     #walletAddress {
       margin-top: 10px;
       color: #00ffcc;
+      font-size: 1.1em;
     }
 
     .section {
       background-color: rgba(255, 255, 255, 0.1);
       margin-top: 40px;
-      padding: 20px;
+      padding: 25px;
       border-radius: 15px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
 
     .section h2 {
-      margin-bottom: 10px;
-      font-size: 1.8em;
+      margin-bottom: 15px;
+      font-size: 2em;
       color: #ffd700;
     }
 
     .section p, .section ul {
-      font-size: 1.1em;
+      font-size: 1.2em;
       color: #f0f0f0;
     }
 
@@ -114,7 +130,7 @@
   <canvas id="matrix"></canvas>
 
   <div class="container">
-    <img src="seoder.png" alt="Seoder Logo" width="150" style="margin-bottom: 20px;">
+    <img src="seoder.png" alt="Seoder Logo" width="180" style="margin-bottom: 20px;">
     <h1>Seoder Token Presale</h1>
     <p>1 BNB = 46,153.84 SEODER</p>
 
