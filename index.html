@@ -87,7 +87,7 @@
       padding-left: 0;
     }
     .section ul li::before {
-      content: "✅ ";
+      content: "\2714\FE0F ";
       color: #00ffcc;
     }
   </style>
@@ -100,7 +100,7 @@
 
     <div class="countdown" id="countdown">Yükleniyor...</div>
 
-    <input type="number" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
+    <input type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
     <div id="seoderAmount"></div>
 
     <button class="btn" onclick="connectWallet()">🔌 Cüzdanı Bağla</button>
@@ -112,7 +112,7 @@
       <p>
         Seoder Token, topluluğa dayalı, eğlenceli ve aynı zamanda değer sunan bir meme token'dır.
         Amacımız, sadece bir kripto para birimi olmaktan öte, dijital kültürle iç içe geçmiş
-        bir topluluk oluşturmak ve merkeziyetsiz finans dünyasında fark yaratmaktır.
+        bir topluluk oluurmak ve merkeziyetsiz finans dünyasında fark yaratmaktır.
       </p>
     </div>
 
@@ -144,7 +144,7 @@
   </div>
 
   <script>
-    const countdownDate = new Date("2025-08-01T00:00:00").getTime(); // Sabit presale tarihi
+    const countdownDate = new Date("2025-08-01T00:00:00").getTime();
 
     const countdownFunc = setInterval(() => {
       const now = new Date().getTime();
@@ -209,10 +209,10 @@
           from: accounts[0],
           value: web3.utils.toWei(amount, "ether")
         });
-        alert("✅ SEODER başarıyla satın alındı!");
+        alert(`✅ ${amount} BNB ile SEODER satın alındı!`);
       } catch (err) {
         console.error(err);
-        alert("❌ İşlem başarısız. Cüzdan bağlı mı? Yeterli bakiye ve token var mı?");
+        alert("❌ İşlem başarısız. Cüzdan bağlı mı? Token yüklü mü?");
       }
     }
   </script>
