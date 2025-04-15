@@ -26,10 +26,6 @@
       margin: auto;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
     .btn {
       background-color: #ff0080;
       color: white;
@@ -44,10 +40,6 @@
     .btn:hover {
       background-color: #e60073;
     }
-    .countdown {
-      font-size: 1.5em;
-      margin: 20px 0;
-    }
     input {
       padding: 10px;
       width: 80%;
@@ -56,6 +48,10 @@
       border: none;
       border-radius: 8px;
       font-size: 1em;
+    }
+    .countdown {
+      font-size: 1.5em;
+      margin: 20px 0;
     }
     #seoderAmount {
       margin-top: 10px;
@@ -87,7 +83,7 @@
       padding-left: 0;
     }
     .section ul li::before {
-      content: "\2714\FE0F ";
+      content: "✅ ";
       color: #00ffcc;
     }
   </style>
@@ -100,7 +96,7 @@
 
     <div class="countdown" id="countdown">Yükleniyor...</div>
 
-    <input type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
+    <input type="text" inputmode="decimal" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
     <div id="seoderAmount"></div>
 
     <button class="btn" onclick="connectWallet()">🔌 Cüzdanı Bağla</button>
@@ -112,7 +108,7 @@
       <p>
         Seoder Token, topluluğa dayalı, eğlenceli ve aynı zamanda değer sunan bir meme token'dır.
         Amacımız, sadece bir kripto para birimi olmaktan öte, dijital kültürle iç içe geçmiş
-        bir topluluk oluurmak ve merkeziyetsiz finans dünyasında fark yaratmaktır.
+        bir topluluk oluşturmak ve merkeziyetsiz finans dünyasında fark yaratmaktır.
       </p>
     </div>
 
@@ -144,6 +140,7 @@
   </div>
 
   <script>
+    // Sabit geri sayım tarihi (örnek: 1 Ağustos 2025)
     const countdownDate = new Date("2025-08-01T00:00:00").getTime();
 
     const countdownFunc = setInterval(() => {
@@ -199,20 +196,22 @@
 
     async function buyTokens() {
       const amount = document.getElementById("bnbAmount").value;
-      if (!accounts || !accounts.length) {
+      if (!accounts.length) {
         return alert("Lütfen önce cüzdanınızı bağlayın.");
       }
       if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
+
       const contract = new web3.eth.Contract(abi, presaleAddress);
+
       try {
         await contract.methods.buyTokens().send({
           from: accounts[0],
           value: web3.utils.toWei(amount, "ether")
         });
-        alert(`✅ ${amount} BNB ile SEODER satın alındı!`);
+        alert("✅ SEODER başarıyla satın alındı!");
       } catch (err) {
         console.error(err);
-        alert("❌ İşlem başarısız. Cüzdan bağlı mı? Token yüklü mü?");
+        alert("❌ İşlem başarısız. Cüzdan bağlı mı, yeterli BNB var mı?");
       }
     }
   </script>
