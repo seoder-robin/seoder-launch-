@@ -183,17 +183,23 @@
       }
     ];
 
+    // Cüzdan bağlantısını sağlayan fonksiyon
     async function connectWallet() {
       if (window.ethereum) {
         web3 = new Web3(window.ethereum);
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        accounts = await web3.eth.getAccounts();
-        document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          accounts = await web3.eth.getAccounts();
+          document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
+        } catch (err) {
+          alert("Cüzdan bağlantısı reddedildi.");
+        }
       } else {
         alert("Lütfen MetaMask yükleyin.");
       }
     }
 
+    // Satın alma işlemini başlatan fonksiyon
     async function buyTokens() {
       const amount = document.getElementById("bnbAmount").value;
       if (!accounts.length) {
