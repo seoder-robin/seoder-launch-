@@ -140,8 +140,8 @@
   </div>
 
   <script>
-    // Sabit geri sayım tarihi (örnek: 1 Ağustos 2025)
-    const countdownDate = new Date("2025-08-01T00:00:00").getTime();
+    // Sabit geri sayım tarihi (240 gün sonra başlasın)
+    const countdownDate = new Date().getTime() + (240 * 24 * 60 * 60 * 1000);
 
     const countdownFunc = setInterval(() => {
       const now = new Date().getTime();
