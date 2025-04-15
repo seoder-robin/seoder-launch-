@@ -140,43 +140,19 @@
     </div>
   </div>
 
+  <!-- Madencilik Oyunu Başlangıcı -->
+  <div class="mining-game">
+    <h2>Hacker Ok Atma Oyunu</h2>
+    <div id="enemies">
+      <div class="enemy" onclick="shootArrow(this)">Doge</div>
+      <div class="enemy" onclick="shootArrow(this)">Shiba</div>
+      <div class="enemy" onclick="shootArrow(this)">Pepe</div>
+      <div class="enemy" onclick="shootArrow(this)">Bome</div>
+    </div>
+    <p id="result"></p>
+  </div>
+
   <script>
-    // Sayfa yüklendiğinde, localStorage'dan geri sayım tarihini al
-    let countdownDate = localStorage.getItem("countdownDate");
-
-    // Eğer daha önce bir tarih kaydedilmemişse, 240 gün sonrasını ayarla
-    if (!countdownDate) {
-      countdownDate = new Date().getTime() + (240 * 24 * 60 * 60 * 1000);
-      localStorage.setItem("countdownDate", countdownDate);
-    }
-
-    const countdownFunc = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-
-      if (distance < 0) {
-        clearInterval(countdownFunc);
-        document.getElementById("countdown").innerHTML = "Presale başladı!";
-        return;
-      }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      document.getElementById("countdown").innerHTML =
-        `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
-    }, 1000);
-
-    function calculateSeoder() {
-      const bnb = parseFloat(document.getElementById("bnbAmount").value);
-      const rate = 46153.84;
-      const seoder = bnb * rate;
-      document.getElementById("seoderAmount").innerText =
-        bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
-    }
-
     let web3;
     let accounts = [];
     const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe536fe502d";
@@ -234,6 +210,43 @@
         alert("❌ İşlem başarısız. Cüzdan bağlı mı, yeterli BNB var mı?");
       }
     }
+
+    // Madencilik oyunu fonksiyonu
+    function shootArrow(enemy) {
+      enemy.style.backgroundColor = "red";  // Ok atıldığında düşman kırmızıya döner
+      document.getElementById("result").innerText = "✅ Ok atıldı!";
+      setTimeout(() => {
+        enemy.style.backgroundColor = ""; // Renklendirmeyi sıfırlayın
+        document.getElementById("result").innerText = "";
+      }, 1000);
+    }
+
+    // Geri sayım fonksiyonu
+    let countdownDate = localStorage.getItem("countdownDate");
+
+    if (!countdownDate) {
+      countdownDate = new Date().getTime() + (240 * 24 * 60 * 60 * 1000);
+      localStorage.setItem("countdownDate", countdownDate);
+    }
+
+    const countdownFunc = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance < 0) {
+        clearInterval(countdownFunc);
+        document.getElementById("countdown").innerHTML = "Presale başladı!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
+    }, 1000);
   </script>
 </body>
 </html>
