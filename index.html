@@ -6,26 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
   <style>
-    /* Matrix Background Styles */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: black;
-      overflow: hidden; /* Arka planın taşmasını engelle */
+      background-image: url('background.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
       color: white;
       text-align: center;
       padding: 50px 20px;
     }
-
-    #matrix {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
     .container {
       background-color: rgba(0, 0, 0, 0.6);
       border-radius: 20px;
@@ -34,7 +26,6 @@
       margin: auto;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
-
     .btn {
       background-color: #ff0080;
       color: white;
@@ -46,11 +37,9 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-
     .btn:hover {
       background-color: #e60073;
     }
-
     input {
       padding: 10px;
       width: 80%;
@@ -60,47 +49,39 @@
       border-radius: 8px;
       font-size: 1em;
     }
-
     .countdown {
       font-size: 1.5em;
       margin: 20px 0;
     }
-
     #seoderAmount {
       margin-top: 10px;
       font-weight: bold;
       font-size: 1.2em;
       color: #00ffcc;
     }
-
     #walletAddress {
       margin-top: 10px;
       color: #00ffcc;
     }
-
     .section {
       background-color: rgba(255, 255, 255, 0.1);
       margin-top: 40px;
       padding: 20px;
       border-radius: 15px;
     }
-
     .section h2 {
       margin-bottom: 10px;
       font-size: 1.8em;
       color: #ffd700;
     }
-
     .section p, .section ul {
       font-size: 1.1em;
       color: #f0f0f0;
     }
-
     .section ul {
       list-style: none;
       padding-left: 0;
     }
-
     .section ul li::before {
       content: "✅ ";
       color: #00ffcc;
@@ -109,23 +90,23 @@
 </head>
 <body>
 
-  <!-- Matrix Background -->
-  <canvas id="matrix"></canvas>
-
   <div class="container">
     <img src="seoder.png" alt="Seoder Logo" width="150" style="margin-bottom: 20px;">
     <h1>Seoder Token Presale</h1>
     <p>1 BNB = 46,153.84 SEODER</p>
 
+    <!-- Countdown -->
     <div class="countdown" id="countdown">Yükleniyor...</div>
 
+    <!-- BNB Input -->
     <input type="text" inputmode="decimal" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
-    <div id="seoderAmount"></div>
+    <div id="seoderAmount">0 SEODER</div>
 
+    <!-- Wallet Connect / Disconnect buttons -->
     <button class="btn" onclick="connectWallet()">🔌 Cüzdanı Bağla</button>
     <button class="btn" onclick="disconnectWallet()">🔓 Cüzdanı Çıkart</button>
     <button class="btn" onclick="buyTokens()">💸 Satın Al</button>
-    <p id="walletAddress"></p>
+    <p id="walletAddress">Cüzdan Bağlanmadı</p>
 
     <!-- Hakkında Bölümü -->
     <div class="section">
@@ -168,48 +149,99 @@
   </div>
 
   <script>
-    // Matrix background animation script
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
+    // Sayfa yüklendiğinde, localStorage'dan geri sayım tarihini al
+    let countdownDate = localStorage.getItem("countdownDate");
 
-    // Set canvas size to match screen size
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()*&^%+-/";
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = [];
-
-    // Initialize drops array
-    for (let i = 0; i < columns; i++) {
-      drops[i] = 1;
+    // Eğer daha önce bir tarih kaydedilmemişse, 240 gün sonrasını ayarla
+    if (!countdownDate) {
+      countdownDate = new Date().getTime() + (240 * 24 * 60 * 60 * 1000);
+      localStorage.setItem("countdownDate", countdownDate);
     }
 
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const countdownFunc = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
 
-      ctx.fillStyle = "#00FF00"; // Green text color
-      ctx.font = fontSize + "px monospace";
+      if (distance < 0) {
+        clearInterval(countdownFunc);
+        document.getElementById("countdown").innerHTML = "Presale başladı!";
+        return;
+      }
 
-      for (let i = 0; i < drops.length; i++) {
-        const char = characters[Math.floor(Math.random() * characters.length)];
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Reset drop to top after it reaches the bottom
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
+      document.getElementById("countdown").innerHTML =
+        `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
+    }, 1000);
+
+    function calculateSeoder() {
+      const bnb = parseFloat(document.getElementById("bnbAmount").value);
+      const rate = 46153.84;
+      const seoder = bnb * rate;
+      document.getElementById("seoderAmount").innerText =
+        bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
+    }
+
+    let web3;
+    let accounts = [];
+    const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe536fe502d";
+    const abi = [
+      {
+        "inputs": [],
+        "name": "buyTokens",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      }
+    ];
+
+    // Cüzdan bağlantısını sağlayan fonksiyon
+    async function connectWallet() {
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          accounts = await web3.eth.getAccounts();
+          document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
+        } catch (err) {
+          alert("Cüzdan bağlantısı reddedildi.");
         }
-
-        drops[i]++;
+      } else {
+        alert("Lütfen MetaMask yükleyin.");
       }
     }
 
-    setInterval(drawMatrix, 35);
+    // Cüzdanı çıkartan fonksiyon
+    function disconnectWallet() {
+      accounts = [];
+      document.getElementById("walletAddress").innerText = "Cüzdan Bağlanmadı.";
+      alert("Cüzdan bağlantısı kesildi.");
+    }
 
-    // Other functions (e.g., buyTokens, connectWallet, etc.) follow here...
+    // Satın alma işlemini başlatan fonksiyon
+    async function buyTokens() {
+      const amount = document.getElementById("bnbAmount").value;
+      if (!accounts.length) {
+        return alert("Lütfen önce cüzdanınızı bağlayın.");
+      }
+      if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
 
+      const contract = new web3.eth.Contract(abi, presaleAddress);
+
+      try {
+        await contract.methods.buyTokens().send({
+          from: accounts[0],
+          value: web3.utils.toWei(amount, "ether")
+        });
+        alert("✅ SEODER başarıyla satın alındı!");
+      } catch (err) {
+        console.error(err);
+        alert("❌ İşlem başarısız. Cüzdan bağlı mı, yeterli BNB var mı?");
+      }
+    }
   </script>
 </body>
 </html>
