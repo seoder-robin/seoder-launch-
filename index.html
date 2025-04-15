@@ -141,8 +141,14 @@
   </div>
 
   <script>
-    // Sabit geri sayım tarihi (240 gün sonra başlasın)
-    const countdownDate = new Date().getTime() + (240 * 24 * 60 * 60 * 1000);
+    // Sayfa yüklendiğinde, localStorage'dan geri sayım tarihini al
+    let countdownDate = localStorage.getItem("countdownDate");
+
+    // Eğer daha önce bir tarih kaydedilmemişse, 240 gün sonrasını ayarla
+    if (!countdownDate) {
+      countdownDate = new Date().getTime() + (240 * 24 * 60 * 60 * 1000);
+      localStorage.setItem("countdownDate", countdownDate);
+    }
 
     const countdownFunc = setInterval(() => {
       const now = new Date().getTime();
