@@ -34,7 +34,7 @@
       background-color: #ff0080;
       color: white;
       padding: 15px 30px;
-      margin-top: 20px;
+      margin-top: 10px;
       border: none;
       border-radius: 10px;
       font-size: 1.1em;
@@ -100,7 +100,6 @@
 
     <div class="countdown" id="countdown">Yükleniyor...</div>
 
-    <!-- 🔧 DÜZELTİLEN KISIM -->
     <input type="number" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
     <div id="seoderAmount"></div>
 
@@ -145,8 +144,8 @@
   </div>
 
   <script>
-    const now = new Date().getTime();
-    const countdownDate = new Date(now + 240 * 24 * 60 * 60 * 1000);
+    const countdownDate = new Date("2025-08-01T00:00:00").getTime(); // Sabit presale tarihi
+
     const countdownFunc = setInterval(() => {
       const now = new Date().getTime();
       const distance = countdownDate - now;
@@ -175,7 +174,7 @@
     }
 
     let web3;
-    let accounts;
+    let accounts = [];
     const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe502d";
     const abi = [
       {
@@ -190,7 +189,7 @@
     async function connectWallet() {
       if (window.ethereum) {
         web3 = new Web3(window.ethereum);
-        await window.ethereum.enable();
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
         accounts = await web3.eth.getAccounts();
         document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
       } else {
@@ -200,6 +199,9 @@
 
     async function buyTokens() {
       const amount = document.getElementById("bnbAmount").value;
+      if (!accounts || !accounts.length) {
+        return alert("Lütfen önce cüzdanınızı bağlayın.");
+      }
       if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
       const contract = new web3.eth.Contract(abi, presaleAddress);
       try {
@@ -209,7 +211,8 @@
         });
         alert("✅ SEODER başarıyla satın alındı!");
       } catch (err) {
-        alert("❌ İşlem başarısız. Cüzdan bağlı mı? Token yüklü mü?");
+        console.error(err);
+        alert("❌ İşlem başarısız. Cüzdan bağlı mı? Yeterli bakiye ve token var mı?");
       }
     }
   </script>
