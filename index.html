@@ -9,12 +9,15 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #0a0a0a;
+      background-image: url('background.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
       color: white;
       text-align: center;
       padding: 50px 20px;
     }
-
     .container {
       background-color: rgba(0, 0, 0, 0.6);
       border-radius: 20px;
@@ -23,12 +26,6 @@
       margin: auto;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-
     .btn {
       background-color: #ff0080;
       color: white;
@@ -40,60 +37,64 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-
     .btn:hover {
       background-color: #e60073;
     }
-
-    .hacker {
-      font-size: 2em;
-      color: yellow;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: transform 0.3s ease;
+    input {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
     }
-
-    .hacker:hover {
-      transform: scale(1.1);
-    }
-
-    #score {
+    .countdown {
       font-size: 1.5em;
-      margin-top: 20px;
-      font-weight: bold;
+      margin: 20px 0;
     }
-
     #seoderAmount {
-      margin-top: 20px;
+      margin-top: 10px;
+      font-weight: bold;
       font-size: 1.2em;
       color: #00ffcc;
     }
-
     #walletAddress {
       margin-top: 10px;
       color: #00ffcc;
     }
-
     .section {
       background-color: rgba(255, 255, 255, 0.1);
       margin-top: 40px;
       padding: 20px;
       border-radius: 15px;
     }
-
     .section h2 {
       margin-bottom: 10px;
       font-size: 1.8em;
       color: #ffd700;
     }
+    .section p, .section ul {
+      font-size: 1.1em;
+      color: #f0f0f0;
+    }
+    .section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .section ul li::before {
+      content: "✅ ";
+      color: #00ffcc;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Seoder Token Madencilik Oyunu</h1>
-    <div class="hacker" id="hacker" onclick="shootArrow()">Hacker'a Ok At!</div>
+    <img src="seoder.png" alt="Seoder Logo" width="150" style="margin-bottom: 20px;">
+    <h1>Seoder Token Presale</h1>
+    <p>1 BNB = 46,153.84 SEODER</p>
 
-    <div id="score">Kazandığınız SEODER: 0</div>
+    <div class="countdown" id="countdown">Yükleniyor...</div>
 
     <input type="text" inputmode="decimal" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
     <div id="seoderAmount"></div>
@@ -140,21 +141,40 @@
   </div>
 
   <script>
-    // Madencilik oyunu fonksiyonları
-    let score = 0;
-    const hacker = document.getElementById('hacker');
-    const scoreElement = document.getElementById('score');
+    // Sayfa yüklendiğinde, localStorage'dan geri sayım tarihini al
+    let countdownDate = localStorage.getItem("countdownDate");
 
-    function shootArrow() {
-      // Ok atma animasyonu için bir fonksiyon
-      hacker.style.transform = 'rotate(10deg)';
-      setTimeout(() => {
-        hacker.style.transform = 'rotate(0deg)';
-      }, 300);
-      
-      // Token kazancını artır
-      score += 100;
-      scoreElement.textContent = `Kazandığınız SEODER: ${score}`;
+    // Eğer daha önce bir tarih kaydedilmemişse, 240 gün sonrasını ayarla
+    if (!countdownDate) {
+      countdownDate = new Date().getTime() + (240 * 24 * 60 * 60 * 1000);
+      localStorage.setItem("countdownDate", countdownDate);
+    }
+
+    const countdownFunc = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance < 0) {
+        clearInterval(countdownFunc);
+        document.getElementById("countdown").innerHTML = "Presale başladı!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
+    }, 1000);
+
+    function calculateSeoder() {
+      const bnb = parseFloat(document.getElementById("bnbAmount").value);
+      const rate = 46153.84;
+      const seoder = bnb * rate;
+      document.getElementById("seoderAmount").innerText =
+        bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
     }
 
     let web3;
@@ -170,7 +190,7 @@
       }
     ];
 
-    // Cüzdan bağlantısı
+    // Cüzdan bağlantısını sağlayan fonksiyon
     async function connectWallet() {
       if (window.ethereum) {
         web3 = new Web3(window.ethereum);
@@ -195,31 +215,24 @@
 
     // Satın alma işlemini başlatan fonksiyon
     async function buyTokens() {
-      const amount = 0.01;  // Örnek olarak 0.01 BNB
+      const amount = document.getElementById("bnbAmount").value;
       if (!accounts.length) {
         return alert("Lütfen önce cüzdanınızı bağlayın.");
       }
+      if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
 
       const contract = new web3.eth.Contract(abi, presaleAddress);
+
       try {
         await contract.methods.buyTokens().send({
           from: accounts[0],
-          value: web3.utils.toWei(amount.toString(), "ether")
+          value: web3.utils.toWei(amount, "ether")
         });
         alert("✅ SEODER başarıyla satın alındı!");
       } catch (err) {
         console.error(err);
         alert("❌ İşlem başarısız. Cüzdan bağlı mı, yeterli BNB var mı?");
       }
-    }
-
-    // BNB'den SEODER'e dönüşüm
-    function calculateSeoder() {
-      const bnb = parseFloat(document.getElementById("bnbAmount").value);
-      const rate = 46153.84;
-      const seoder = bnb * rate;
-      document.getElementById("seoderAmount").innerText =
-        bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
     }
   </script>
 </body>
