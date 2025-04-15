@@ -26,7 +26,10 @@
       margin: auto;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
-    h1 { font-size: 2.5em; margin-bottom: 10px; }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
     .btn {
       background-color: #ff0080;
       color: white;
@@ -38,8 +41,13 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-    .btn:hover { background-color: #e60073; }
-    .countdown { font-size: 1.5em; margin: 20px 0; }
+    .btn:hover {
+      background-color: #e60073;
+    }
+    .countdown {
+      font-size: 1.5em;
+      margin: 20px 0;
+    }
     input {
       padding: 10px;
       width: 80%;
@@ -92,6 +100,7 @@
 
     <div class="countdown" id="countdown">Yükleniyor...</div>
 
+    <!-- 🔧 DÜZELTİLEN KISIM -->
     <input type="number" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
     <div id="seoderAmount"></div>
 
@@ -182,7 +191,7 @@
       if (window.ethereum) {
         web3 = new Web3(window.ethereum);
         await window.ethereum.enable();
-        accounts = await web3.eth.getAccounts(); // GLOBAL atama burada!
+        accounts = await web3.eth.getAccounts();
         document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
       } else {
         alert("Lütfen MetaMask yükleyin.");
