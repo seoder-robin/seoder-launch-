@@ -100,6 +100,7 @@
     <div id="seoderAmount"></div>
 
     <button class="btn" onclick="connectWallet()">🔌 Cüzdanı Bağla</button>
+    <button class="btn" onclick="disconnectWallet()">🔓 Cüzdanı Çıkart</button>
     <button class="btn" onclick="buyTokens()">💸 Satın Al</button>
     <p id="walletAddress"></p>
 
@@ -197,6 +198,13 @@
       } else {
         alert("Lütfen MetaMask yükleyin.");
       }
+    }
+
+    // Cüzdanı çıkartan fonksiyon
+    function disconnectWallet() {
+      accounts = [];
+      document.getElementById("walletAddress").innerText = "Cüzdan Bağlanmadı.";
+      alert("Cüzdan bağlantısı kesildi.");
     }
 
     // Satın alma işlemini başlatan fonksiyon
