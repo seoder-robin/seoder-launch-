@@ -9,15 +9,12 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-image: url('background.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-position: center;
+      background-color: #0a0a0a;
       color: white;
       text-align: center;
       padding: 50px 20px;
     }
+
     .container {
       background-color: rgba(0, 0, 0, 0.6);
       border-radius: 20px;
@@ -26,6 +23,12 @@
       margin: auto;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
     .btn {
       background-color: #ff0080;
       color: white;
@@ -37,64 +40,60 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     .btn:hover {
       background-color: #e60073;
     }
-    input {
-      padding: 10px;
-      width: 80%;
-      max-width: 300px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
+
+    .hacker {
+      font-size: 2em;
+      color: yellow;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.3s ease;
     }
-    .countdown {
+
+    .hacker:hover {
+      transform: scale(1.1);
+    }
+
+    #score {
       font-size: 1.5em;
-      margin: 20px 0;
-    }
-    #seoderAmount {
-      margin-top: 10px;
+      margin-top: 20px;
       font-weight: bold;
+    }
+
+    #seoderAmount {
+      margin-top: 20px;
       font-size: 1.2em;
       color: #00ffcc;
     }
+
     #walletAddress {
       margin-top: 10px;
       color: #00ffcc;
     }
+
     .section {
       background-color: rgba(255, 255, 255, 0.1);
       margin-top: 40px;
       padding: 20px;
       border-radius: 15px;
     }
+
     .section h2 {
       margin-bottom: 10px;
       font-size: 1.8em;
       color: #ffd700;
     }
-    .section p, .section ul {
-      font-size: 1.1em;
-      color: #f0f0f0;
-    }
-    .section ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    .section ul li::before {
-      content: "✅ ";
-      color: #00ffcc;
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="seoder.png" alt="Seoder Logo" width="150" style="margin-bottom: 20px;">
-    <h1>Seoder Token Presale</h1>
-    <p>1 BNB = 46,153.84 SEODER</p>
+    <h1>Seoder Token Madencilik Oyunu</h1>
+    <div class="hacker" id="hacker" onclick="shootArrow()">Hacker'a Ok At!</div>
 
-    <div class="countdown" id="countdown">Yükleniyor...</div>
+    <div id="score">Kazandığınız SEODER: 0</div>
 
     <input type="text" inputmode="decimal" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
     <div id="seoderAmount"></div>
@@ -140,19 +139,24 @@
     </div>
   </div>
 
-  <!-- Madencilik Oyunu Başlangıcı -->
-  <div class="mining-game">
-    <h2>Hacker Ok Atma Oyunu</h2>
-    <div id="enemies">
-      <div class="enemy" onclick="shootArrow(this)">Doge</div>
-      <div class="enemy" onclick="shootArrow(this)">Shiba</div>
-      <div class="enemy" onclick="shootArrow(this)">Pepe</div>
-      <div class="enemy" onclick="shootArrow(this)">Bome</div>
-    </div>
-    <p id="result"></p>
-  </div>
-
   <script>
+    // Madencilik oyunu fonksiyonları
+    let score = 0;
+    const hacker = document.getElementById('hacker');
+    const scoreElement = document.getElementById('score');
+
+    function shootArrow() {
+      // Ok atma animasyonu için bir fonksiyon
+      hacker.style.transform = 'rotate(10deg)';
+      setTimeout(() => {
+        hacker.style.transform = 'rotate(0deg)';
+      }, 300);
+      
+      // Token kazancını artır
+      score += 100;
+      scoreElement.textContent = `Kazandığınız SEODER: ${score}`;
+    }
+
     let web3;
     let accounts = [];
     const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe536fe502d";
@@ -166,7 +170,7 @@
       }
     ];
 
-    // Cüzdan bağlantısını sağlayan fonksiyon
+    // Cüzdan bağlantısı
     async function connectWallet() {
       if (window.ethereum) {
         web3 = new Web3(window.ethereum);
@@ -191,18 +195,16 @@
 
     // Satın alma işlemini başlatan fonksiyon
     async function buyTokens() {
-      const amount = document.getElementById("bnbAmount").value;
+      const amount = 0.01;  // Örnek olarak 0.01 BNB
       if (!accounts.length) {
         return alert("Lütfen önce cüzdanınızı bağlayın.");
       }
-      if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
 
       const contract = new web3.eth.Contract(abi, presaleAddress);
-
       try {
         await contract.methods.buyTokens().send({
           from: accounts[0],
-          value: web3.utils.toWei(amount, "ether")
+          value: web3.utils.toWei(amount.toString(), "ether")
         });
         alert("✅ SEODER başarıyla satın alındı!");
       } catch (err) {
@@ -211,42 +213,14 @@
       }
     }
 
-    // Madencilik oyunu fonksiyonu
-    function shootArrow(enemy) {
-      enemy.style.backgroundColor = "red";  // Ok atıldığında düşman kırmızıya döner
-      document.getElementById("result").innerText = "✅ Ok atıldı!";
-      setTimeout(() => {
-        enemy.style.backgroundColor = ""; // Renklendirmeyi sıfırlayın
-        document.getElementById("result").innerText = "";
-      }, 1000);
+    // BNB'den SEODER'e dönüşüm
+    function calculateSeoder() {
+      const bnb = parseFloat(document.getElementById("bnbAmount").value);
+      const rate = 46153.84;
+      const seoder = bnb * rate;
+      document.getElementById("seoderAmount").innerText =
+        bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
     }
-
-    // Geri sayım fonksiyonu
-    let countdownDate = localStorage.getItem("countdownDate");
-
-    if (!countdownDate) {
-      countdownDate = new Date().getTime() + (240 * 24 * 60 * 60 * 1000);
-      localStorage.setItem("countdownDate", countdownDate);
-    }
-
-    const countdownFunc = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-
-      if (distance < 0) {
-        clearInterval(countdownFunc);
-        document.getElementById("countdown").innerHTML = "Presale başladı!";
-        return;
-      }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      document.getElementById("countdown").innerHTML =
-        `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
-    }, 1000);
   </script>
 </body>
 </html>
