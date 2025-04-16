@@ -6,24 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
   <style>
-    /* Matrix Background Styles */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: black;
-      overflow: auto;
       color: white;
       text-align: center;
       padding: 50px 20px;
-    }
-
-    #matrix {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
     }
 
     .container {
@@ -33,7 +22,6 @@
       max-width: 800px;
       margin: auto;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-      min-height: 100vh;
     }
 
     .btn {
@@ -52,48 +40,12 @@
       background-color: #45a049;
     }
 
-    input {
-      padding: 10px;
-      width: 80%;
-      max-width: 300px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-    }
-
-    .countdown {
-      font-size: 1.5em;
-      margin: 20px 0;
-    }
-
-    #seoderAmount {
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 1.2em;
-      color: #00ffcc;
-    }
-
-    #walletAddress {
-      margin-top: 10px;
-      color: #00ffcc;
-    }
-
-    /* Menu Styles */
     .menu {
-      position: fixed;
-      top: 20px;
-      right: 20px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: inline-block;
       z-index: 10;
-    }
-
-    .menu button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1.1em;
     }
 
     .menu-content {
@@ -120,6 +72,53 @@
       display: block;
     }
 
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 700px;
+      color: #333;
+    }
+
+    .modal-header {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    .modal-body {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
     /* Telegram Buton Stili */
     .telegram-btn {
       background-color: #0088cc;
@@ -141,57 +140,10 @@
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 
-    /* Modal Styles */
-    .modal-content {
-      background-color: #222;
-      color: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      font-size: 1.2em;
-    }
-
-    .modal-header {
-      font-size: 1.5em;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-
-    .modal-body {
-      font-size: 1.1em;
-      line-height: 1.6em;
-    }
-
-    .close {
-      color: white;
-      font-size: 1.5em;
-      font-weight: bold;
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      cursor: pointer;
-    }
-
-    .close:hover {
-      color: red;
-    }
-
-    /* Footer Styles */
-    .footer {
-      background-color: #222;
-      padding: 30px 0;
-      color: white;
-      text-align: center;
-      font-size: 1.1em;
-      margin-top: 50px;
-      border-radius: 10px;
-    }
-
   </style>
 </head>
 <body>
 
-  <!-- Matrix Background -->
   <canvas id="matrix"></canvas>
 
   <div class="container">
@@ -208,8 +160,8 @@
 
     <!-- Wallet Connect / Disconnect buttons -->
     <button class="btn" id="connectBtn" onclick="connectWallet()">🔌 Cüzdanı Bağla</button>
-    <button class="btn" id="disconnectBtn" onclick="disconnectWallet()">🔓 Cüzdanı Çıkart</button>
-    <button class="btn" id="buyBtn" onclick="buyTokens()">💸 Satın Al</button>
+    <button class="btn" id="disconnectBtn" onclick="disconnectWallet()" disabled>🔓 Cüzdanı Çıkart</button>
+    <button class="btn" onclick="buyTokens()">💸 Satın Al</button>
     <p id="walletAddress">Cüzdan Bağlanmadı</p>
 
     <!-- Telegram Butonu -->
@@ -218,17 +170,18 @@
         Telegram'a Katıl
       </button>
     </a>
-  </div>
 
-  <!-- Menü ve içerikler -->
-  <div class="menu">
-    <button class="btn">❓ Menü</button>
-    <div class="menu-content">
-      <a href="#" onclick="openModal('proje-amaci')">Projenin Amacı</a>
-      <a href="#" onclick="openModal('yol-haritasi')">Yol Haritası</a>
-      <a href="#" onclick="openModal('tokenomics')">Tokenomics</a>
-      <a href="#" onclick="openModal('ekibimiz')">Ekibimiz</a>
+    <!-- Menü ve içerikler -->
+    <div class="menu">
+      <button class="btn">❓ Menü</button>
+      <div class="menu-content">
+        <a href="#" onclick="openModal('proje-amaci')">Projenin Amacı</a>
+        <a href="#" onclick="openModal('yol-haritasi')">Yol Haritası</a>
+        <a href="#" onclick="openModal('tokenomics')">Tokenomics</a>
+        <a href="#" onclick="openModal('ekibimiz')">Ekibimiz</a>
+      </div>
     </div>
+
   </div>
 
   <!-- Modal for displaying info -->
@@ -237,8 +190,8 @@
       <span class="close" onclick="closeModal('proje-amaci')">&times;</span>
       <div class="modal-header">Projenin Amacı</div>
       <div class="modal-body">
-        SEODER, merkeziyetsiz finans dünyasında fark yaratmayı hedefleyen bir meme token'dır. 
-        Bu token, topluluk odaklı bir yapıya sahip olup, sadece eğlenceli bir kripto para değil, 
+        SEODER, merkeziyetsiz finans dünyasında fark yaratmayı hedefleyen bir meme token'dır.
+        Bu token, topluluk odaklı bir yapıya sahip olup, sadece eğlenceli bir kripto para değil,
         aynı zamanda gelecekte dijital kültür ve toplulukla güçlü bir bağ kurmayı amaçlamaktadır.
       </div>
     </div>
@@ -292,6 +245,72 @@
   </div>
 
   <script>
+    let web3;
+    let accounts = [];
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          accounts = await web3.eth.getAccounts();
+          document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
+          document.getElementById("connectBtn").disabled = true;
+          document.getElementById("disconnectBtn").disabled = false;
+        } catch (err) {
+          alert("Cüzdan bağlantısı reddedildi.");
+        }
+      } else {
+        alert("Lütfen MetaMask yükleyin.");
+      }
+    }
+
+    function disconnectWallet() {
+      accounts = [];
+      document.getElementById("walletAddress").innerText = "Cüzdan Bağlanmadı";
+      document.getElementById("connectBtn").disabled = false;
+      document.getElementById("disconnectBtn").disabled = true;
+      alert("Cüzdan bağlantısı kesildi.");
+    }
+
+    function calculateSeoder() {
+      const bnb = parseFloat(document.getElementById("bnbAmount").value);
+      const rate = 46153.84;
+      const seoder = bnb * rate;
+      document.getElementById("seoderAmount").innerText =
+        bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
+    }
+
+    async function buyTokens() {
+      const amount = document.getElementById("bnbAmount").value;
+      if (!accounts.length) {
+        return alert("Lütfen önce cüzdanınızı bağlayın.");
+      }
+      if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
+
+      const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe536fe502d";
+      const contract = new web3.eth.Contract([
+        {
+          "inputs": [],
+          "name": "buyTokens",
+          "outputs": [],
+          "stateMutability": "payable",
+          "type": "function"
+        }
+      ], presaleAddress);
+
+      try {
+        await contract.methods.buyTokens().send({
+          from: accounts[0],
+          value: web3.utils.toWei(amount, "ether")
+        });
+        alert("✅ SEODER başarıyla satın alındı!");
+      } catch (err) {
+        console.error(err);
+        alert("❌ İşlem başarısız. Cüzdan bağlı mı, yeterli BNB var mı?");
+      }
+    }
+
     // Open Modal
     function openModal(modalId) {
       document.getElementById(modalId).style.display = "block";
@@ -301,41 +320,6 @@
     function closeModal(modalId) {
       document.getElementById(modalId).style.display = "none";
     }
-
-    // Matrix background animation
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()*&^%+-/";
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = [];
-
-    // Initialize drops array
-    for (let i = 0; i < columns; i++) {
-      drops[i] = 1;
-    }
-
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#00FF00"; // Green text color
-      ctx.font = fontSize + "px monospace";
-
-      for (let i = 0; i < drops.length; i++) {
-        const char = characters[Math.floor(Math.random() * characters.length)];
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-
-        drops[i]++;
-      }
-    }
-
-    setInterval(drawMatrix, 35);
   </script>
 
 </body>
