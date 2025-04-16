@@ -114,28 +114,25 @@
       padding: 15px 30px;
       font-size: 1.1em;
       border: none;
-      border-radius: 30px; /* Yuvarlatılmış köşeler */
+      border-radius: 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
-      transition: all 0.3s ease;
+      gap: 10px;
+      transition: background-color 0.3s ease;
       margin-top: 20px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-      width: 250px;
-      margin: 0 auto; /* Ortalamak için */
+      text-decoration: none; /* Linki düzeltiyoruz */
     }
 
     .telegram-btn img {
-      width: 30px; /* Telegram logosunun boyutu */
-      filter: brightness(0) invert(1); /* Beyazlaştırma efekti */
+      width: 25px; /* Telegram logosunun boyutu */
     }
 
     .telegram-btn:hover {
       background-color: #007bb5;
-      transform: translateY(-2px); /* Hover etkisi */
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 
   </style>
@@ -202,7 +199,7 @@
       <p>Seoder Token, deneyimli blockchain geliştiricileri, yazılım mühendisleri, pazarlama uzmanları ve topluluk yöneticilerinden oluşan bir ekip tarafından yönetilmektedir. Şeffaflık ve güven bizim temel değerimizdir. Ekibimiz, SEODER’in güçlü bir şekilde büyümesini ve dijital finans dünyasında yerini almasını sağlayacak güçlü bir yapıya sahiptir.</p>
     </div>
 
-    <!-- Telegram Buton -->
+    <!-- Telegram Butonu -->
     <a href="https://t.me/a26mnxR7tjYWNk" target="_blank">
       <button class="telegram-btn">
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Telegram_logo_2019.svg" alt="Telegram Logo">
