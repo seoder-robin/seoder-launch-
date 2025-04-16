@@ -79,32 +79,45 @@
       color: #00ffcc;
     }
 
-    .section {
-      background-color: rgba(255, 255, 255, 0.1);
-      margin-top: 40px;
-      padding: 20px;
-      border-radius: 15px;
+    /* Menu Styles */
+    .menu {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
     }
 
-    .section h2 {
-      margin-bottom: 10px;
-      font-size: 1.8em;
-      color: #ffd700;
-    }
-
-    .section p, .section ul {
+    .menu button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
       font-size: 1.1em;
-      color: #f0f0f0;
     }
 
-    .section ul {
-      list-style: none;
-      padding-left: 0;
+    .menu-content {
+      display: none;
+      position: absolute;
+      background-color: #4CAF50;
+      min-width: 160px;
+      z-index: 1;
+      border-radius: 10px;
     }
 
-    .section ul li::before {
-      content: "✅ ";
-      color: #00ffcc;
+    .menu-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .menu-content a:hover {
+      background-color: #45a049;
+    }
+
+    .menu:hover .menu-content {
+      display: block;
     }
 
     /* Telegram Buton Stili */
@@ -128,13 +141,48 @@
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 
+    /* Modal Styles */
+    .modal-content {
+      background-color: #222;
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      font-size: 1.2em;
+    }
+
+    .modal-header {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .modal-body {
+      font-size: 1.1em;
+      line-height: 1.6em;
+    }
+
+    .close {
+      color: white;
+      font-size: 1.5em;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: red;
+    }
+
     /* Footer Styles */
     .footer {
       background-color: #222;
-      padding: 20px 0;
+      padding: 30px 0;
       color: white;
       text-align: center;
-      font-size: 1em;
+      font-size: 1.1em;
       margin-top: 50px;
       border-radius: 10px;
     }
@@ -170,18 +218,17 @@
         Telegram'a Katıl
       </button>
     </a>
+  </div>
 
-    <!-- Menü ve içerikler -->
-    <div class="menu">
-      <button class="btn">❓ Menü</button>
-      <div class="menu-content">
-        <a href="#" onclick="openModal('proje-amaci')">Projenin Amacı</a>
-        <a href="#" onclick="openModal('yol-haritasi')">Yol Haritası</a>
-        <a href="#" onclick="openModal('tokenomics')">Tokenomics</a>
-        <a href="#" onclick="openModal('ekibimiz')">Ekibimiz</a>
-      </div>
+  <!-- Menü ve içerikler -->
+  <div class="menu">
+    <button class="btn">❓ Menü</button>
+    <div class="menu-content">
+      <a href="#" onclick="openModal('proje-amaci')">Projenin Amacı</a>
+      <a href="#" onclick="openModal('yol-haritasi')">Yol Haritası</a>
+      <a href="#" onclick="openModal('tokenomics')">Tokenomics</a>
+      <a href="#" onclick="openModal('ekibimiz')">Ekibimiz</a>
     </div>
-
   </div>
 
   <!-- Modal for displaying info -->
@@ -245,67 +292,50 @@
   </div>
 
   <script>
-    let web3;
-    let accounts = [];
-    const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe536fe502d";
-    const abi = [
-      {
-        "inputs": [],
-        "name": "buyTokens",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      }
-    ];
+    // Open Modal
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = "block";
+    }
 
-    // Cüzdan bağlantısını sağlayan fonksiyon
-    async function connectWallet() {
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        try {
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
-          accounts = await web3.eth.getAccounts();
-          document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
-          document.getElementById("connectBtn").disabled = true; // Cüzdan bağlı olduğunda "Bağla" butonunu devre dışı bırak
-          document.getElementById("disconnectBtn").disabled = false; // "Çıkart" butonunu aktif et
-        } catch (err) {
-          alert("Cüzdan bağlantısı reddedildi.");
+    // Close Modal
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+    }
+
+    // Matrix background animation
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()*&^%+-/";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    // Initialize drops array
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#00FF00"; // Green text color
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const char = characters[Math.floor(Math.random() * characters.length)];
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
         }
-      } else {
-        alert("Lütfen MetaMask yükleyin.");
+
+        drops[i]++;
       }
     }
 
-    // Cüzdanı çıkartan fonksiyon
-    function disconnectWallet() {
-      accounts = [];
-      document.getElementById("walletAddress").innerText = "Cüzdan Bağlanmadı.";
-      document.getElementById("connectBtn").disabled = false; // "Bağla" butonunu aktif et
-      document.getElementById("disconnectBtn").disabled = true; // "Çıkart" butonunu devre dışı bırak
-      alert("Cüzdan bağlantısı kesildi.");
-    }
-
-    // Satın alma işlemini başlatan fonksiyon
-    async function buyTokens() {
-      const amount = document.getElementById("bnbAmount").value;
-      if (!accounts.length) {
-        return alert("Lütfen önce cüzdanınızı bağlayın.");
-      }
-      if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
-
-      const contract = new web3.eth.Contract(abi, presaleAddress);
-
-      try {
-        await contract.methods.buyTokens().send({
-          from: accounts[0],
-          value: web3.utils.toWei(amount, "ether")
-        });
-        alert("✅ SEODER başarıyla satın alındı!");
-      } catch (err) {
-        console.error(err);
-        alert("❌ İşlem başarısız. Cüzdan bağlı mı, yeterli BNB var mı?");
-      }
-    }
+    setInterval(drawMatrix, 35);
   </script>
 
 </body>
