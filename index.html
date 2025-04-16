@@ -130,8 +130,11 @@
 
     /* Açılır Menü */
     .menu {
-      position: relative;
+      position: absolute;
+      top: 10px;
+      right: 10px;
       display: inline-block;
+      z-index: 10;
     }
 
     .menu-content {
@@ -228,15 +231,16 @@
       </button>
     </a>
 
-    <!-- Açılır Menü -->
-    <div class="menu">
-      <button class="btn">❓ Daha Fazla</button>
-      <div class="menu-content">
-        <a href="#" onclick="alert('Projenin Amacı: SEODER, merkeziyetsiz finans dünyasında fark yaratmayı hedefleyen bir meme token’dır.')">Projenin Amacı</a>
-        <a href="#" onclick="alert('Yol Haritası: SEODER, presale, DEX listelemeleri, NFT entegrasyonu gibi önemli adımları içeren bir yol haritasına sahiptir.')">Yol Haritası</a>
-        <a href="#" onclick="alert('Tokenomics: SEODER tokenomics, %50 presale, %20 likidite, %15 ekip payı, %10 pazarlama ve %5 ödül içermektedir.')">Tokenomics</a>
-        <a href="#" onclick="alert('Ekibimiz: Deneyimli blockchain geliştiricilerinden oluşan bir ekip SEODER token’ın başarısını sağlamak için çalışmaktadır.')">Ekibimiz</a>
-      </div>
+  </div>
+
+  <!-- Menu Bar in the top-right corner -->
+  <div class="menu">
+    <button class="btn">❓ Menü</button>
+    <div class="menu-content">
+      <a href="#" onclick="alert('Projenin Amacı: SEODER, merkeziyetsiz finans dünyasında fark yaratmayı hedefleyen bir meme token’dır.')">Projenin Amacı</a>
+      <a href="#" onclick="alert('Yol Haritası: SEODER, presale, DEX listelemeleri, NFT entegrasyonu gibi önemli adımları içeren bir yol haritasına sahiptir.')">Yol Haritası</a>
+      <a href="#" onclick="alert('Tokenomics: SEODER tokenomics, %50 presale, %20 likidite, %15 ekip payı, %10 pazarlama ve %5 ödül içermektedir.')">Tokenomics</a>
+      <a href="#" onclick="alert('Ekibimiz: Deneyimli blockchain geliştiricilerinden oluşan bir ekip SEODER token’ın başarısını sağlamak için çalışmaktadır.')">Ekibimiz</a>
     </div>
   </div>
 
@@ -376,7 +380,3 @@
 
 </body>
 </html>
-"""
-
-# Display the final HTML code for review
-html_code &#8203;:contentReference[oaicite:0]{index=0}&#8203;
