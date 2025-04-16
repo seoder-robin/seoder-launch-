@@ -11,6 +11,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: black;
+      overflow: auto;
       color: white;
       text-align: center;
       padding: 50px 20px;
@@ -51,84 +52,15 @@
       background-color: #45a049;
     }
 
-    /* Menu */
-    .menu {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: inline-block;
-      z-index: 10;
-    }
-
-    .menu-content {
-      display: none;
-      position: absolute;
-      background-color: #4CAF50;
-      min-width: 160px;
-      z-index: 1;
-      border-radius: 10px;
-    }
-
-    .menu-content a {
+    /* Footer Styles */
+    .footer {
+      background-color: #222;
+      padding: 20px 0;
       color: white;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .menu-content a:hover {
-      background-color: #45a049;
-    }
-
-    .menu:hover .menu-content {
-      display: block;
-    }
-
-    /* Modal Styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 700px;
-      color: #333;
-    }
-
-    .modal-header {
-      font-size: 1.5em;
-      margin-bottom: 20px;
-    }
-
-    .modal-body {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-    }
-
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
+      text-align: center;
+      font-size: 1em;
+      margin-top: 50px;
+      border-radius: 10px;
     }
 
     /* Telegram Buton Stili */
@@ -152,17 +84,6 @@
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 
-    /* Footer Styles */
-    .footer {
-      background-color: #222;
-      padding: 20px 0;
-      color: white;
-      text-align: center;
-      font-size: 1em;
-      margin-top: 50px;
-      border-radius: 10px;
-    }
-
   </style>
 </head>
 <body>
@@ -183,8 +104,8 @@
     <div id="seoderAmount">0 SEODER</div>
 
     <!-- Wallet Connect / Disconnect buttons -->
-    <button class="btn" id="connectBtn" onclick="connectWallet()">🔌 Cüzdanı Bağla</button>
-    <button class="btn" id="disconnectBtn" onclick="disconnectWallet()" disabled>🔓 Cüzdanı Çıkart</button>
+    <button class="btn" onclick="connectWallet()">🔌 Cüzdanı Bağla</button>
+    <button class="btn" onclick="disconnectWallet()">🔓 Cüzdanı Çıkart</button>
     <button class="btn" onclick="buyTokens()">💸 Satın Al</button>
     <p id="walletAddress">Cüzdan Bağlanmadı</p>
 
@@ -195,71 +116,6 @@
       </button>
     </a>
 
-    <!-- Menü ve içerikler -->
-    <div class="menu">
-      <button class="btn">❓ Menü</button>
-      <div class="menu-content">
-        <a href="#" onclick="openModal('proje-amaci')">Projenin Amacı</a>
-        <a href="#" onclick="openModal('yol-haritasi')">Yol Haritası</a>
-        <a href="#" onclick="openModal('tokenomics')">Tokenomics</a>
-        <a href="#" onclick="openModal('ekibimiz')">Ekibimiz</a>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Modal for displaying info -->
-  <div id="proje-amaci" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('proje-amaci')">&times;</span>
-      <div class="modal-header">Projenin Amacı</div>
-      <div class="modal-body">
-        SEODER, merkeziyetsiz finans dünyasında fark yaratmayı hedefleyen bir meme token'dır.
-        Bu token, topluluk odaklı bir yapıya sahip olup, sadece eğlenceli bir kripto para değil,
-        aynı zamanda gelecekte dijital kültür ve toplulukla güçlü bir bağ kurmayı amaçlamaktadır.
-      </div>
-    </div>
-  </div>
-
-  <div id="yol-haritasi" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('yol-haritasi')">&times;</span>
-      <div class="modal-header">Yol Haritası</div>
-      <div class="modal-body">
-        <ul>
-          <li><strong>Q2 2025:</strong> Web Sitesi Lansmanı ve Topluluk İnşası.</li>
-          <li><strong>Q3 2025:</strong> Token Presale ve DEX Listelemeleri.</li>
-          <li><strong>Q4 2025:</strong> NFT Entegrasyonu ve Ödül Sistemleri.</li>
-          <li><strong>2026:</strong> Seoder DAO ve Ekosistem Genişlemesi.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div id="tokenomics" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('tokenomics')">&times;</span>
-      <div class="modal-header">Tokenomics</div>
-      <div class="modal-body">
-        <ul>
-          <li><strong>%50 Presale:</strong> SEODER token'ının yarısı presale olarak sunulacak.</li>
-          <li><strong>%20 Likidite:</strong> Likidite sağlamak için ayrılacak.</li>
-          <li><strong>%15 Geliştirici ve Ekip:</strong> Ekip üyelerine ayrılacak pay.</li>
-          <li><strong>%10 Pazarlama:</strong> Pazarlama ve reklam için ayrılacak pay.</li>
-          <li><strong>%5 Topluluk ve Ödüller:</strong> Toplulukla etkileşim ve ödüller için ayrılacak pay.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div id="ekibimiz" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('ekibimiz')">&times;</span>
-      <div class="modal-header">Ekibimiz</div>
-      <div class="modal-body">
-        Seoder Token, deneyimli blockchain geliştiricilerinden, yazılım mühendislerinden ve pazarlama uzmanlarından oluşan bir ekip tarafından yönetilmektedir. Ekibimiz, SEODER’in güçlü bir şekilde büyümesini sağlamak için çalışmaktadır.
-      </div>
-    </div>
   </div>
 
   <!-- Footer -->
@@ -269,33 +125,66 @@
   </div>
 
   <script>
-    let web3;
-    let accounts = [];
+    // Matrix background animation
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()*&^%+-/";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
 
-    async function connectWallet() {
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        try {
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
-          accounts = await web3.eth.getAccounts();
-          document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
-          document.getElementById("connectBtn").disabled = true;
-          document.getElementById("disconnectBtn").disabled = false;
-        } catch (err) {
-          alert("Cüzdan bağlantısı reddedildi.");
+    // Initialize drops array
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#00FF00"; // Green text color
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const char = characters[Math.floor(Math.random() * characters.length)];
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
         }
-      } else {
-        alert("Lütfen MetaMask yükleyin.");
+
+        drops[i]++;
       }
     }
 
-    function disconnectWallet() {
-      accounts = [];
-      document.getElementById("walletAddress").innerText = "Cüzdan Bağlanmadı";
-      document.getElementById("connectBtn").disabled = false;
-      document.getElementById("disconnectBtn").disabled = true;
-      alert("Cüzdan bağlantısı kesildi.");
+    setInterval(drawMatrix, 35);
+
+    // Presale countdown setup
+    let countdownDate = localStorage.getItem("countdownDate");
+    if (!countdownDate) {
+      countdownDate = new Date().getTime() + (240 * 24 * 60 * 60 * 1000);
+      localStorage.setItem("countdownDate", countdownDate);
     }
+
+    const countdownFunc = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance < 0) {
+        clearInterval(countdownFunc);
+        document.getElementById("countdown").innerHTML = "Presale başladı!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
+    }, 1000);
 
     function calculateSeoder() {
       const bnb = parseFloat(document.getElementById("bnbAmount").value);
@@ -305,6 +194,43 @@
         bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
     }
 
+    let web3;
+    let accounts = [];
+    const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe536fe502d";
+    const abi = [
+      {
+        "inputs": [],
+        "name": "buyTokens",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      }
+    ];
+
+    // Cüzdan bağlantısını sağlayan fonksiyon
+    async function connectWallet() {
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          accounts = await web3.eth.getAccounts();
+          document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
+        } catch (err) {
+          alert("Cüzdan bağlantısı reddedildi.");
+        }
+      } else {
+        alert("Lütfen MetaMask yükleyin.");
+      }
+    }
+
+    // Cüzdanı çıkartan fonksiyon
+    function disconnectWallet() {
+      accounts = [];
+      document.getElementById("walletAddress").innerText = "Cüzdan Bağlanmadı.";
+      alert("Cüzdan bağlantısı kesildi.");
+    }
+
+    // Satın alma işlemini başlatan fonksiyon
     async function buyTokens() {
       const amount = document.getElementById("bnbAmount").value;
       if (!accounts.length) {
@@ -312,16 +238,7 @@
       }
       if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
 
-      const presaleAddress = "0x5241b0d915Fe55aD9445406B31787fe536fe502d";
-      const contract = new web3.eth.Contract([
-        {
-          "inputs": [],
-          "name": "buyTokens",
-          "outputs": [],
-          "stateMutability": "payable",
-          "type": "function"
-        }
-      ], presaleAddress);
+      const contract = new web3.eth.Contract(abi, presaleAddress);
 
       try {
         await contract.methods.buyTokens().send({
@@ -333,16 +250,6 @@
         console.error(err);
         alert("❌ İşlem başarısız. Cüzdan bağlı mı, yeterli BNB var mı?");
       }
-    }
-
-    // Open Modal
-    function openModal(modalId) {
-      document.getElementById(modalId).style.display = "block";
-    }
-
-    // Close Modal
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = "none";
     }
   </script>
 
