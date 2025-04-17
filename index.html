@@ -52,25 +52,37 @@
       background-color: #45a049;
     }
 
-    /* Telegram Buton Stili */
-    .telegram-btn {
-      background-color: #0088cc;
-      color: white;
-      padding: 15px 30px;
-      font-size: 1.1em;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
+    /* Menu */
+    .menu {
+      position: absolute;
+      top: 10px;
+      right: 10px;
       display: inline-block;
-      transition: background-color 0.3s ease;
-      margin-top: 20px;
-      text-decoration: none;
+      z-index: 10;
     }
 
-    .telegram-btn:hover {
-      background-color: #007bb5;
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    .menu-content {
+      display: none;
+      position: absolute;
+      background-color: #4CAF50;
+      min-width: 160px;
+      z-index: 1;
+      border-radius: 10px;
+    }
+
+    .menu-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .menu-content a:hover {
+      background-color: #45a049;
+    }
+
+    .menu:hover .menu-content {
+      display: block;
     }
 
     /* Modal Styles */
@@ -120,6 +132,27 @@
       cursor: pointer;
     }
 
+    /* Telegram Buton Stili */
+    .telegram-btn {
+      background-color: #0088cc;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+      text-decoration: none;
+    }
+
+    .telegram-btn:hover {
+      background-color: #007bb5;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
     /* Footer Styles */
     .footer {
       background-color: #222;
@@ -163,6 +196,17 @@
       </button>
     </a>
 
+    <!-- Menü ve içerikler -->
+    <div class="menu">
+      <button class="btn">❓ Menü</button>
+      <div class="menu-content">
+        <a href="#" onclick="openModal('proje-amaci')">Projenin Amacı</a>
+        <a href="#" onclick="openModal('yol-haritasi')">Yol Haritası</a>
+        <a href="#" onclick="openModal('tokenomics')">Tokenomics</a>
+        <a href="#" onclick="openModal('ekibimiz')">Ekibimiz</a>
+      </div>
+    </div>
+
   </div>
 
   <!-- Modal for displaying info -->
@@ -171,7 +215,9 @@
       <span class="close" onclick="closeModal('proje-amaci')">&times;</span>
       <div class="modal-header">Projenin Amacı</div>
       <div class="modal-body">
-        SEODER, merkeziyetsiz finans dünyasında fark yaratmayı hedefleyen bir meme token'dır. Bu token, topluluk odaklı bir yapıya sahip olup, sadece eğlenceli bir kripto para değil, aynı zamanda gelecekte dijital kültür ve toplulukla güçlü bir bağ kurmayı amaçlamaktadır.
+        SEODER, merkeziyetsiz finans dünyasında fark yaratmayı hedefleyen bir meme token'dır. 
+        Bu token, topluluk odaklı bir yapıya sahip olup, sadece eğlenceli bir kripto para değil, 
+        aynı zamanda gelecekte dijital kültür ve toplulukla güçlü bir bağ kurmayı amaçlamaktadır.
       </div>
     </div>
   </div>
