@@ -106,6 +106,20 @@
       content: "✅ ";
       color: #00ffcc;
     }
+
+    /* Satılan SEODER Yüzdesi */
+    .percentage-sold {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(0, 255, 204, 0.8);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 1.3em;
+      color: #ffffff;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -169,13 +183,10 @@
       <h2>Ekibimiz</h2>
       <p>Seoder Token, deneyimli blockchain geliştiricileri, yazılım mühendisleri, pazarlama uzmanları ve topluluk yöneticilerinden oluşan bir ekip tarafından yönetilmektedir. Şeffaflık ve güven bizim temel değerimizdir. Ekibimiz, SEODER’in güçlü bir şekilde büyümesini ve dijital finans dünyasında yerini almasını sağlayacak güçlü bir yapıya sahiptir.</p>
     </div>
-
-    <!-- Satılan SEODER Yüzdesi -->
-    <div class="section">
-      <h2>Satılan SEODER Yüzdesi</h2>
-      <p id="percentageSold">Presale'den Satılan: %20.00</p>
-    </div>
   </div>
+
+  <!-- Satılan SEODER Yüzdesi (Sağ Üst Köşede) -->
+  <div class="percentage-sold" id="percentageSold">Presale'den Satılan: %20.00</div>
 
   <script>
     // Matrix background animation script
