@@ -169,6 +169,12 @@
       <h2>Ekibimiz</h2>
       <p>Seoder Token, deneyimli blockchain geliştiricileri, yazılım mühendisleri, pazarlama uzmanları ve topluluk yöneticilerinden oluşan bir ekip tarafından yönetilmektedir. Şeffaflık ve güven bizim temel değerimizdir. Ekibimiz, SEODER’in güçlü bir şekilde büyümesini ve dijital finans dünyasında yerini almasını sağlayacak güçlü bir yapıya sahiptir.</p>
     </div>
+
+    <!-- Satılan SEODER Yüzdesi -->
+    <div class="section">
+      <h2>Satılan SEODER Yüzdesi</h2>
+      <p id="percentageSold">Presale'den Satılan: %0.00</p>
+    </div>
   </div>
 
   <script>
@@ -298,36 +304,18 @@
           value: web3.utils.toWei(amount, "ether")
         });
 
-        alert("✅ SEODER başarıyla satın alındı!");
+        // Satılan SEODER miktarını hesapla
+        const seoderAmount = parseFloat(amount) * 46153.84; // 1 BNB = 46,153.84 SEODER
+        totalSoldAmount += seoderAmount;
 
-        // Token transfer işlemi
-        const tokenAddress = 'SEODER_TOKEN_ADDRESS'; // SEODER token kontrat adresini buraya ekle
-        const tokenABI = [
-          {
-            "constant": true,
-            "inputs": [{ "name": "_owner", "type": "address" }],
-            "name": "balanceOf",
-            "outputs": [{ "name": "balance", "type": "uint256" }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [
-              { "name": "_to", "type": "address" },
-              { "name": "_value", "type": "uint256" }
-            ],
-            "name": "transfer",
-            "outputs": [{ "name": "", "type": "bool" }],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-          }
-        ];
+        // Presale'den ne kadar satıldığına göre oran hesapla
+        const percentageSold = (totalSoldAmount / totalPresaleAmount) * 100;
 
-        const tokenContract = new web3.eth.Contract(tokenABI, tokenAddress);
-        await tokenContract.methods.transfer(accounts[0], web3.utils.toWei(amount, 'ether')).send({ from: accounts[0] });
+        // Kullanıcıyı bilgilendir
+        alert(`✅ SEODER başarıyla satın alındı! \nŞu an %${percentageSold.toFixed(2)}'si satıldı.`);
+
+        // Yüzdeyi sayfada göstermek için
+        document.getElementById("percentageSold").innerText = `Presale'den Satılan: ${percentageSold.toFixed(2)}%`;
 
       } catch (err) {
         console.error(err);
