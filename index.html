@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Seoder Token Presale</title>
@@ -11,7 +11,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: black;
-      overflow: auto; /* Sayfa alt kısmının görünmesini sağlar */
+      overflow: auto; /* Ensures the page bottom is visible */
       color: white;
       text-align: center;
       padding: 50px 20px;
@@ -33,7 +33,7 @@
       max-width: 800px;
       margin: auto;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-      min-height: 100vh; /* Sayfanın tamamını kapsayacak şekilde */
+      min-height: 100vh; /* Covers the entire page */
     }
 
     .btn {
@@ -107,7 +107,7 @@
       color: #00ffcc;
     }
 
-    /* Satılan SEODER Yüzdesi */
+    /* Sold SEODER Percentage */
     .percentage-sold {
       position: absolute;
       top: 20px;
@@ -133,60 +133,60 @@
     <p>1 BNB = 46,153.84 SEODER</p>
 
     <!-- Countdown -->
-    <div class="countdown" id="countdown">Yükleniyor...</div>
+    <div class="countdown" id="countdown">Loading...</div>
 
     <!-- BNB Input -->
-    <input type="text" inputmode="decimal" id="bnbAmount" placeholder="BNB miktarını gir" oninput="calculateSeoder()">
+    <input type="text" inputmode="decimal" id="bnbAmount" placeholder="Enter BNB amount" oninput="calculateSeoder()">
     <div id="seoderAmount">0 SEODER</div>
 
     <!-- Wallet Connect / Disconnect buttons -->
-    <button class="btn" onclick="connectWallet()">🔌 Cüzdanı Bağla</button>
-    <button class="btn" onclick="disconnectWallet()">🔓 Cüzdanı Çıkart</button>
-    <button class="btn" onclick="buyTokens()">💸 Satın Al</button>
-    <p id="walletAddress">Cüzdan Bağlanmadı</p>
+    <button class="btn" onclick="connectWallet()">🔌 Connect Wallet</button>
+    <button class="btn" onclick="disconnectWallet()">🔓 Disconnect Wallet</button>
+    <button class="btn" onclick="buyTokens()">💸 Buy</button>
+    <p id="walletAddress">Wallet Not Connected</p>
 
-    <!-- Hakkında Bölümü -->
+    <!-- About Section -->
     <div class="section">
-      <h2>Hakkında</h2>
+      <h2>About</h2>
       <p>
-        Seoder Token, topluluğa dayalı, eğlenceli ve aynı zamanda değer sunan bir meme token'dır.
-        Amacımız, sadece bir kripto para birimi olmaktan öte, dijital kültürle iç içe geçmiş
-        bir topluluk oluşturmak ve merkeziyetsiz finans dünyasında fark yaratmaktır.
+        Seoder Token is a community-driven, fun, and value-creating meme token.
+        Our goal is to create a community that is not only a cryptocurrency but also deeply embedded with digital culture
+        and make a difference in the decentralized finance world.
       </p>
     </div>
 
-    <!-- Yol Haritası Bölümü -->
+    <!-- Roadmap Section -->
     <div class="section">
-      <h2>Yol Haritası</h2>
+      <h2>Roadmap</h2>
       <ul>
-        <li><strong>Q2 2025:</strong> Web Sitesi Lansmanı ve Topluluk İnşası. Web sitesi üzerinden SEODER hakkında detaylı bilgi, presale ve topluluk oluşturmaya başlanacak.</li>
-        <li><strong>Q3 2025:</strong> Token Presale ve DEX Listelemeleri. SEODER token'ı presale olarak sunulacak ve merkeziyetsiz borsalarda işlem görmeye başlanacak.</li>
-        <li><strong>Q4 2025:</strong> NFT Entegrasyonu ve Ödül Sistemleri. Kullanıcılar SEODER token’larını NFT’lere dönüştürebilecek ve stake etme imkanı bulacak.</li>
-        <li><strong>2026:</strong> Seoder DAO ve Ekosistem Genişlemesi. SEODER, merkeziyetsiz otonom bir organizasyon (DAO) olacak ve ekosistemi daha geniş bir alanda yayılacak.</li>
+        <li><strong>Q2 2025:</strong> Website Launch and Community Building. Detailed information about SEODER, presale, and community development will start.</li>
+        <li><strong>Q3 2025:</strong> Token Presale and DEX Listings. SEODER token will be available in presale and will start being traded on decentralized exchanges.</li>
+        <li><strong>Q4 2025:</strong> NFT Integration and Reward Systems. Users will be able to convert SEODER tokens into NFTs and participate in staking.</li>
+        <li><strong>2026:</strong> Seoder DAO and Ecosystem Expansion. SEODER will become a decentralized autonomous organization (DAO) and expand its ecosystem further.</li>
       </ul>
     </div>
 
-    <!-- Tokenomics Bölümü -->
+    <!-- Tokenomics Section -->
     <div class="section">
       <h2>Tokenomics</h2>
       <ul>
-        <li><strong>%50 Presale:</strong> SEODER token'ının yarısı presale aracılığıyla erken yatırımcılara sunulacak. Bu, proje için başlangıç sermayesini oluşturacak.</li>
-        <li><strong>%20 Likidite:</strong> Token’ların %20’si likidite sağlamak ve borsalarda işlem yapılabilirliğini artırmak amacıyla ayrılacak.</li>
-        <li><strong>%15 Geliştirici ve Ekip:</strong> Projeyi geliştiren ekip üyelerine ayrılacak pay. Ekip üyeleri, SEODER ekosisteminin uzun vadeli başarısına katkı sağlayacak.</li>
-        <li><strong>%10 Pazarlama:</strong> Proje pazarlaması ve reklam için ayrılan pay. Kripto dünyasında SEODER’in bilinirliğini artırmak amacıyla kullanılacak.</li>
-        <li><strong>%5 Topluluk ve Ödüller:</strong> Toplulukla etkileşimi artırmak ve ödüllendirme sistemleri için ayrılan pay. Airdrop’lar ve yarışmalarla token dağıtılacak.</li>
+        <li><strong>%50 Presale:</strong> Half of the SEODER tokens will be available for early investors via presale. This will serve as the project's initial capital.</li>
+        <li><strong>%20 Liquidity:</strong> 20% of the tokens will be allocated for liquidity to increase trading ability on exchanges.</li>
+        <li><strong>%15 Developers and Team:</strong> A portion of the tokens will be allocated to the developers and the team working on the project. This ensures long-term growth.</li>
+        <li><strong>%10 Marketing:</strong> This portion is dedicated to marketing and advertising to boost the visibility of SEODER in the crypto space.</li>
+        <li><strong>%5 Community and Rewards:</strong> This will be used for community engagement and reward systems. Tokens will be distributed via airdrops and competitions.</li>
       </ul>
     </div>
 
-    <!-- Ekibimiz Bölümü -->
+    <!-- Our Team Section -->
     <div class="section">
-      <h2>Ekibimiz</h2>
-      <p>Seoder Token, deneyimli blockchain geliştiricileri, yazılım mühendisleri, pazarlama uzmanları ve topluluk yöneticilerinden oluşan bir ekip tarafından yönetilmektedir. Şeffaflık ve güven bizim temel değerimizdir. Ekibimiz, SEODER’in güçlü bir şekilde büyümesini ve dijital finans dünyasında yerini almasını sağlayacak güçlü bir yapıya sahiptir.</p>
+      <h2>Our Team</h2>
+      <p>Seoder Token is managed by an experienced team of blockchain developers, software engineers, marketing experts, and community managers. Transparency and trust are our core values. Our team is dedicated to ensuring SEODER grows strong and finds its place in the digital finance world.</p>
     </div>
   </div>
 
-  <!-- Satılan SEODER Yüzdesi (Sağ Üst Köşede) -->
-  <div class="percentage-sold" id="percentageSold">Presale'den Satılan: %20.00</div>
+  <!-- Sold SEODER Percentage (Top Right Corner) -->
+  <div class="percentage-sold" id="percentageSold">Sold from Presale: 20.00%</div>
 
   <script>
     // Matrix background animation script
@@ -242,7 +242,7 @@
 
       if (distance < 0) {
         clearInterval(countdownFunc);
-        document.getElementById("countdown").innerHTML = "Presale başladı!";
+        document.getElementById("countdown").innerHTML = "Presale started!";
         return;
       }
 
@@ -252,7 +252,7 @@
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       document.getElementById("countdown").innerHTML =
-        `${days}g ${hours}s ${minutes}d ${seconds}s kaldı`;
+        `${days}d ${hours}h ${minutes}m ${seconds}s left`;
     }, 1000);
 
     function calculateSeoder() {
@@ -260,7 +260,7 @@
       const rate = 46153.84;
       const seoder = bnb * rate;
       document.getElementById("seoderAmount").innerText =
-        bnb ? `${seoder.toLocaleString()} SEODER alacaksınız` : '';
+        bnb ? `${seoder.toLocaleString()} SEODER you will receive` : '';
     }
 
     let web3;
@@ -276,39 +276,39 @@
       }
     ];
 
-    let totalPresaleAmount = 4000000000; // SEODER toplam arzı
-    let totalSoldAmount = 800000000; // Başlangıçta %20 satışa sunulan miktar
+    let totalPresaleAmount = 4000000000; // Total SEODER supply
+    let totalSoldAmount = 800000000; // Initially 20% sold
 
-    // Cüzdan bağlantısını sağlayan fonksiyon
+    // Connect wallet function
     async function connectWallet() {
       if (window.ethereum) {
         web3 = new Web3(window.ethereum);
         try {
           await window.ethereum.request({ method: 'eth_requestAccounts' });
           accounts = await web3.eth.getAccounts();
-          document.getElementById("walletAddress").innerText = `✅ Bağlı: ${accounts[0]}`;
+          document.getElementById("walletAddress").innerText = `✅ Connected: ${accounts[0]}`;
         } catch (err) {
-          alert("Cüzdan bağlantısı reddedildi.");
+          alert("Wallet connection denied.");
         }
       } else {
-        alert("Lütfen MetaMask yükleyin.");
+        alert("Please install MetaMask.");
       }
     }
 
-    // Cüzdanı çıkartan fonksiyon
+    // Disconnect wallet function
     function disconnectWallet() {
       accounts = [];
-      document.getElementById("walletAddress").innerText = "Cüzdan Bağlanmadı.";
-      alert("Cüzdan bağlantısı kesildi.");
+      document.getElementById("walletAddress").innerText = "Wallet Not Connected.";
+      alert("Wallet connection disconnected.");
     }
 
-    // Satın alma işlemini başlatan fonksiyon
+    // Buy tokens function
     async function buyTokens() {
       const amount = document.getElementById("bnbAmount").value;
       if (!accounts.length) {
-        return alert("Lütfen önce cüzdanınızı bağlayın.");
+        return alert("Please connect your wallet first.");
       }
-      if (!amount || amount <= 0) return alert("Geçerli BNB miktarı gir.");
+      if (!amount || amount <= 0) return alert("Enter a valid BNB amount.");
 
       const contract = new web3.eth.Contract(abi, presaleAddress);
 
@@ -318,22 +318,22 @@
           value: web3.utils.toWei(amount, "ether")
         });
 
-        // Satılan SEODER miktarını hesapla
+        // Calculate sold SEODER
         const seoderAmount = parseFloat(amount) * 46153.84; // 1 BNB = 46,153.84 SEODER
         totalSoldAmount += seoderAmount;
 
-        // Presale'den ne kadar satıldığına göre oran hesapla
+        // Calculate the percentage of SEODER sold
         const percentageSold = (totalSoldAmount / totalPresaleAmount) * 100;
 
-        // Kullanıcıyı bilgilendir
-        alert(`✅ SEODER başarıyla satın alındı! \nŞu an %${percentageSold.toFixed(2)}'si satıldı.`);
+        // Notify user
+        alert(`✅ SEODER successfully purchased! \nCurrently, ${percentageSold.toFixed(2)}% is sold.`);
 
-        // Yüzdeyi sayfada göstermek için
-        document.getElementById("percentageSold").innerText = `Presale'den Satılan: ${percentageSold.toFixed(2)}%`;
+        // Display percentage on the page
+        document.getElementById("percentageSold").innerText = `Sold from Presale: ${percentageSold.toFixed(2)}%`;
 
       } catch (err) {
         console.error(err);
-        alert("❌ İşlem başarısız. Cüzdan bağlı mı, yeterli BNB var mı?");
+        alert("❌ Transaction failed. Is your wallet connected and do you have enough BNB?");
       }
     }
   </script>
