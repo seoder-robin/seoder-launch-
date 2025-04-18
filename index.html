@@ -173,7 +173,7 @@
     <!-- Satılan SEODER Yüzdesi -->
     <div class="section">
       <h2>Satılan SEODER Yüzdesi</h2>
-      <p id="percentageSold">Presale'den Satılan: %0.00</p>
+      <p id="percentageSold">Presale'den Satılan: %20.00</p>
     </div>
   </div>
 
@@ -264,6 +264,9 @@
         "type": "function"
       }
     ];
+
+    let totalPresaleAmount = 4000000000; // SEODER toplam arzı
+    let totalSoldAmount = 800000000; // Başlangıçta %20 satışa sunulan miktar
 
     // Cüzdan bağlantısını sağlayan fonksiyon
     async function connectWallet() {
