@@ -297,7 +297,38 @@
           from: accounts[0],
           value: web3.utils.toWei(amount, "ether")
         });
+
         alert("✅ SEODER başarıyla satın alındı!");
+
+        // Token transfer işlemi
+        const tokenAddress = 'SEODER_TOKEN_ADDRESS'; // SEODER token kontrat adresini buraya ekle
+        const tokenABI = [
+          {
+            "constant": true,
+            "inputs": [{ "name": "_owner", "type": "address" }],
+            "name": "balanceOf",
+            "outputs": [{ "name": "balance", "type": "uint256" }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [
+              { "name": "_to", "type": "address" },
+              { "name": "_value", "type": "uint256" }
+            ],
+            "name": "transfer",
+            "outputs": [{ "name": "", "type": "bool" }],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ];
+
+        const tokenContract = new web3.eth.Contract(tokenABI, tokenAddress);
+        await tokenContract.methods.transfer(accounts[0], web3.utils.toWei(amount, 'ether')).send({ from: accounts[0] });
+
       } catch (err) {
         console.error(err);
         alert("❌ İşlem başarısız. Cüzdan bağlı mı, yeterli BNB var mı?");
